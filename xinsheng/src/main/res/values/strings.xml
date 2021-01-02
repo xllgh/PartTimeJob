@@ -1,0 +1,181 @@
+<resources>
+    <string name="app_name">鑫升</string>
+    <string name="workstation">工作台</string>
+    <string name="online_work">在线办公</string>
+    <string name="my_application">我的应用</string>
+
+    <string name="pendingTicket">待办工单</string>
+    <string name="doneTicket">已办工单</string>
+
+    <string name="reimbursePerson">报销人</string>
+
+    <string name="loan_pay_request">借款/支付</string>
+    <string name="projectManage">项目管理</string>
+    <string name="applyManage">申报管理</string>
+    <string name="reimburseManage">报销管理</string>
+    <string name="docManage">文档管理</string>
+    <string name="humanManage">人力管理</string>
+
+    <string name="peopleManage">人员管理</string>
+    <string name="roleManage">角色管理</string>
+    <string name="orgManage">组织管理</string>
+    <string name="announcementManage">公告管理</string>
+    <string name="other">Other</string>
+
+
+    <string name="order_no">工单编号</string>
+    <string name="apply_no">申请编号</string>
+    <string name="apply_department">申请部门</string>
+
+    <string name="apply_process">申报流程</string>
+    <string name="request_no">申请单号</string>
+
+    <string name="apply_project">申报项目</string>
+    <string name="apply_type">申请类别</string>
+    <string name="apply_limit">申请限额</string>
+    <string name="reimbursement_reason">报销事由</string>
+    <string name="pay_loan_reason">支付或借款事由</string>
+
+    <string name="money_detail">费用明细</string>
+    <string name="reimbursement_amount">报销金额</string>
+    <string name="reimbursement_subject">报销科目</string>
+    <string name="invoice_subject">发票科目</string>
+    <string name="invoice_amount">发票张数</string>
+    <string name="happen_date">发生时间</string>
+    <string name="remarks">备注</string>
+
+    <string name="fee_type">费用类型</string>
+    <string name="reimburse_limit">报销限额</string>
+
+    <string name="add_money_detail">添加费用明细</string>
+    <string name="upload_file">上传文件</string>
+    <string name="sponsor">发起人</string>
+
+
+
+
+    <string name="zero">0</string>
+    <string name="login">登录</string>
+
+    <string name="edit">编辑</string>
+    <string name="delete">删除</string>
+
+    <string name="login_success">登录成功</string>
+    <string name="login_failed">登录失败，请检查用户密码是否正确，网站是否正常</string>
+    <string name="net_error">请求失败，请检查网络</string>
+    <string name="username_empty">用户名不能为空</string>
+    <string name="password_empty">用户密码不能为空</string>
+
+    <string name="hint_username">请输入您的用户名</string>
+    <string name="hint_password">请输入您的密码</string>
+    <string name="request_money">申请金额</string>
+
+
+    <string name="process_name">流程名称</string>
+    <string name="hint_process_name">请输入流程名称</string>
+    <string name="process_describe">流程描述</string>
+    <string name="hint_process_describer">请输入流程描述</string>
+    <string name="parent_process_type">父流程名称</string>
+    <string name="parent_category">父目录</string>
+    <string name="process_type">流程类别</string>
+    <string name="money_limit">资金限额</string>
+    <string name="money_limit_hint">仅资金申请流程有用</string>
+    <string name="process_node">流程节点</string>
+    <string name="select">请选择</string>
+    <string name="add_process_node">添加流程节点</string>
+
+    <string name="submit">提交</string>
+
+    <string name="order_code">订单编码:</string>
+    <string name="order_name">订单名称:</string>
+    <string name="order_creator">订单创建人:</string>
+    <string name="order_create_time">创建时间:</string>
+    <string name="order_type">工单类型:</string>
+    <string name="order_last_node">上个处理人:</string>
+    <string name="order_status">订单状态:</string>
+
+    <string name="hint_input">请输入</string>
+
+    <string name="title_fee_type">请选择费用类型</string>
+    <string name="title_project_type">请选择项目类型</string>
+
+    <string name="title_reimburse_subject">请选择发票科目</string>
+    <string name="no_info">暂无信息</string>
+    <string name="is_save_login_info">是否记住用户名和密码</string>
+
+    <string name="basic_info">基本信息</string>
+    <string name="approval_info">审批流程</string>
+    <string name="attachment">附件</string>
+    <string name="pending_order_no">审批单号:</string>
+    <string name="initiator">审批发起人:</string>
+    <string name="people_dep">发起人部门:</string>
+    <string name="fee_dep">费用部门:</string>
+    <string name="reimburse_project">报销项目:</string>
+    <string name="reimburse_used_fee">已报销额:</string>
+    <string name="related_loan_process">关联借款流程:</string>
+    <string name="left_money">借款流程剩余金额:</string>
+    <string name="sum_fee">合计金额:</string>
+    <string name="request_fee">申请金额：</string>
+    <string name="reimburse_reason">报销事由</string>
+    <string name="reimburse_no_attachment">该审批请求无附件</string>
+    <string name="deal">办理</string>
+
+    <string name="dismiss_last_node">驳回至上级</string>
+    <string name="dismiss_initiator">驳回至发起人</string>
+    <string name="pass">通过</string>
+    <string name="hint_approval_comment">请输入审批意见</string>
+
+    <string name="login_session_expired">上次登录会话失效，请重新登录</string>
+    <string name="json_error">服务数据JSON解析异常，请联系系统管理员</string>
+    <string name="request_error">网络请求异常，请检查手机的网络是否正常，如果正常请联系系统管理员</string>
+    <string name="request_null">服务器响应内容为空，请联系系统管理员</string>
+
+    <string name="handle_success">处理成功</string>
+    <string name="handle_fail">处理失败</string>
+    <string name="reimburse_no_data">此报销审批请求没有报销明细！</string>
+    <string name="request_type">申请类型</string>
+    <string name="download_success">文件下载完成</string>
+    <string name="download_failed">文件下载失败</string>
+    <string name="downloading">文件正在下载中,请稍等。。。</string>
+    <string name="uploading">文件正在上传中，请稍等。。。</string>
+    <string name="title_activity_order_tab">OrderTabActivity</string>
+    <string name="tab_text_1">Tab 1</string>
+    <string name="tab_text_2">Tab 2</string>
+    <string name="building">该功能仍在建设中。。。</string>
+    <string name="logout">退出登录</string>
+    <string name="load_more">加载更多...</string>
+    <string name="no_more_data">已经到我的底线了...</string>
+    <string name="reset">重置</string>
+    <string name="search">搜索</string>
+    <string name="search_order_id">订单编号</string>
+    <string name="search_order_name">搜索名称</string>
+    <string name="search_initiator">工单发起人</string>
+    <string name="search_content">工单内容</string>
+    <string name="loading">加载中。。。</string>
+    <string name="request_project">申请项目</string>
+    <string name="bank_type">开户行</string>
+    <string name="bank_name">户名</string>
+    <string name="bank_account">账号</string>
+    <string name="bank_net_point">开户网点</string>
+    <string name="request_reason">申请原因</string>
+    <string name="select_file">选择文件:</string>
+    <string name="loan_process">借款流程</string>
+    <string name="pay_process">支付流程</string>
+    <string name="money_china_big">金额大写</string>
+    <string name="submit_process_error">提交审批失败，请稍后重试</string>
+    <string name="upload_file_success">上传文件成功</string>
+    <string name="upload_file_failed">上传文件失败</string>
+    <string name="select_hint">请选择%s</string>
+    <string name="edit_hint">请填写%s</string>
+    <string name="file_hint">请选择有效文件</string>
+    <string name="upload_file_hint">1.如果提交审批流程包含附件，一点要点击“上传文件”后，再“提交”;如果包含多个附件，多次选择文件和上传文件。 2.上传文件之前一点要先选择“流程类型”</string>
+
+    <string name="unknown_process_type">暂时不支持改类型流程的审批，请告知管理员</string>
+    <string-array name="spinner_test">
+        <item>test1</item>
+        <item>test2</item>
+        <item>test3</item>
+        <item>test4</item>
+    </string-array>
+
+</resources>

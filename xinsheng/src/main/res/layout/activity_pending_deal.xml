@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="handler"
+            type="com.xll.xinsheng.handler.PendingDealHandler" />
+
+        <variable
+            name="model"
+            type="com.xll.xinsheng.model.PendingDealModel" />
+
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="com.xll.xinsheng.ui.PendingDealActivity">
+
+   <EditText
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       android:layout_above="@id/pass"
+       android:gravity="start"
+       android:text="@={model.comment}"
+       android:hint="@string/hint_approval_comment"
+       android:background="@drawable/shape_trangle"
+       android:layout_margin="@dimen/margin_20"
+       />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/white"
+        android:background="@drawable/selector_submit"
+        android:layout_above="@id/dismiss_last_node"
+        android:layout_margin="@dimen/margin_20"
+        android:onClick="@{()-> handler.onPassClick(context, model)}"
+        android:text="@string/pass"
+        android:id="@+id/pass"
+        />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/white"
+        android:background="@drawable/selector_submit"
+        android:layout_margin="@dimen/margin_20"
+        android:layout_above="@id/dismiss_initiator"
+        android:onClick="@{() -> handler.onDismissLastNode(context, model)}"
+        android:text="@string/dismiss_last_node"
+        android:id="@+id/dismiss_last_node"
+        />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/white"
+        android:background="@drawable/selector_submit"
+        android:layout_margin="@dimen/margin_20"
+        android:text="@string/dismiss_initiator"
+        android:id="@+id/dismiss_initiator"
+        android:onClick="@{() -> handler.onDismissInitiator(context, model)}"
+        android:layout_alignParentBottom="true"
+        />
+    </RelativeLayout>
+</layout>

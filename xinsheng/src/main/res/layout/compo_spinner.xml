@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="title"
+            type="String" />
+
+       <variable
+           name="model"
+           type="com.xll.xinsheng.model.CompoSpinnerMode" />
+
+        <variable
+            name="listener"
+            type="android.widget.AdapterView.OnItemSelectedListener" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/hint_order_code"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@{title}"
+            android:textColor="@color/blue_light"
+            android:textSize="@dimen/text_size20"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.3" />
+
+        <Spinner
+            android:id="@+id/spinner"
+            android:layout_width="0dp"
+            android:paddingEnd="@dimen/margin_20"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_20"
+            android:entries="@{model.entries}"
+            android:gravity="start"
+            android:selectedItemPosition="@={model.curPosition}"
+            android:textSize="@dimen/text_size20"
+            app:setOnItemClickListener="@{listener}"
+            app:layout_constraintStart_toEndOf="@id/hint_order_code"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.7" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

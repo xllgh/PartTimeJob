@@ -1,0 +1,26 @@
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="@string/pre_personal">
+        <Preference android:title="@string/prefer_login"
+            android:key="@string/key_login"
+            android:icon="@drawable/ic_login"
+            />
+        <Preference android:title="@string/prefer_auth" android:icon="@drawable/ic_login"/>
+        <Preference android:title="@string/prefer_phone_auth"/>
+        <Preference android:title="@string/prefer_sercurity"/>
+        <Preference android:title="@string/prefer_food"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory>
+        <Preference android:title="@string/prefer_guide"/>
+        <Preference android:title="@string/prefer_service"/>
+        <Preference android:title="@string/prefer_info"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory>
+        <Preference android:title="@string/prefer_notification"/>
+        <Preference android:title="@string/prefer_aboubt"/>
+    </PreferenceCategory>
+
+</PreferenceScreen>

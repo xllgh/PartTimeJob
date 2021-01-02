@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="CompoTextView">
+        <attr name="textName" format="string"/>
+        <attr name="textValue" format="string"/>
+    </declare-styleable>
+
+    <declare-styleable name="CompoSpinner">
+        <attr name="title" format="string"/>
+        <attr name="entries" format="reference"/>
+        <attr name="android:entries"/>
+    </declare-styleable>
+
+    <declare-styleable name="CompoEditView">
+        <attr name="editPrompt" format="string"/>
+        <attr name="editLine" format="integer"/>
+        <attr name="editBackground" format="reference"/>
+        <attr name="android:inputType"/>
+        <attr name="editValue" format="string"/>
+    </declare-styleable>
+</resources>

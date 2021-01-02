@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="com.yly.trainsystem.ui.home.HomeViewModel"/>
+        <import type="com.yly.trainsystem.ui.home.HomeEventHandler"/>
+        <variable
+            name="bookTicket"
+            type="HomeViewModel" />
+
+        <variable
+            name="handler"
+            type="HomeEventHandler" />
+
+        <variable
+            name="adRecyclerAdapter"
+            type="com.yly.trainsystem.ui.home.AdRecyclerAdapter" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/query_margin"
+        tools:context=".ui.home.HomeFragment">
+
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/ad_view_page2"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="16dp"
+            app:adapter="@{adRecyclerAdapter}"
+            app:layout_constraintHeight_percent="0.4"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="1" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="28dp"
+            app:layout_constraintHeight_percent="0.4"
+            app:layout_constraintTop_toBottomOf="@+id/ad_view_page2"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_weight="1">
+
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:id="@+id/departure"
+                    android:text="@={bookTicket.departure}"
+                    android:hint="@string/departure" />
+
+                <ImageView
+                    android:id="@+id/change_address"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_gravity="center"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{() -> handler.onExchangeAddress(bookTicket)}"
+                    android:src="@drawable/left_right_switch" />
+
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/destination"
+                    android:gravity="center"
+                    android:text="@={bookTicket.destination}"
+                    android:hint="@string/destination"
+                    app:layout_constraintLeft_toRightOf="@+id/change_address"
+                    app:layout_constraintWidth_percent="0.33" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/departure_time" />
+
+                <TextView
+                    android:layout_width="200dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dp"
+                    android:gravity="center_vertical"
+                    android:text="@{bookTicket.departureTime}"
+                    android:layout_gravity="center_vertical"
+                    android:id="@+id/departure_time_select"
+                    android:onClick="@{() -> handler.onPopUpTimePicker(bookTicket, context)}" />
+
+            </LinearLayout>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/query"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:textColor="@android:color/white"
+                android:text="@string/query_ticket"
+                android:onClick="@{() -> handler.onQueryClick(bookTicket, context)}"
+                android:layout_weight="1" />
+
+        </LinearLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

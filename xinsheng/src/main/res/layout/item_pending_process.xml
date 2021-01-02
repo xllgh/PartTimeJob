@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="processMode"
+            type="com.xll.xinsheng.model.PendingProcess" />
+
+        <variable
+            name="selected"
+            type="Boolean" />
+
+        <variable
+            name="listener"
+            type="android.view.View.OnClickListener" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_white"
+        android:paddingTop="@dimen/padding_40"
+        android:paddingStart="@dimen/padding_40"
+        android:paddingEnd="@dimen/padding_40"
+        android:onClick="@{listener}">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:textStyle="bold"
+            android:gravity="center"
+            app:layout_constraintEnd_toStartOf="@id/order_name"
+            android:textSize="@dimen/text_size12"
+            app:layout_constraintVertical_chainStyle="spread_inside"
+            android:text="@{processMode.tag}"
+            app:textImgUrl="@{processMode.imgRes}"
+            android:textColor="@android:color/white"
+            android:id="@+id/img"
+            />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintHorizontal_weight="1"
+            android:layout_marginStart="@dimen/margin_20"
+            android:ellipsize="marquee"
+            android:gravity="start"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:singleLine="true"
+            android:text="@{processMode.orderName}"
+            android:textStyle="bold"
+            android:textSize="@dimen/text_size20"
+            android:id="@+id/order_name"
+            app:layout_constraintStart_toEndOf="@id/img"
+            app:layout_constraintEnd_toStartOf="@id/select"
+            app:layout_constraintTop_toTopOf="parent"
+            app:setSelected="@{processMode.selected}" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/select"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@id/order_name"
+            android:id="@+id/select"
+            app:layout_constraintBottom_toBottomOf="parent"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_20"
+            android:ellipsize="marquee"
+            android:gravity="start"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:id="@+id/order_creator"
+            android:singleLine="true"
+            android:text="@{processMode.orderCreator}"
+            android:textSize="@dimen/text_size_15"
+            app:layout_constraintStart_toEndOf="@id/img"
+            app:layout_constraintTop_toBottomOf="@id/order_name"
+            app:setSelected="@{processMode.selected}" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_20"
+            android:ellipsize="marquee"
+            android:gravity="start"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:singleLine="true"
+            android:text="@{processMode.orderCreateTime}"
+            android:textSize="@dimen/text_size_15"
+            app:layout_constraintStart_toEndOf="@id/order_creator"
+            app:layout_constraintTop_toBottomOf="@id/order_name"
+            app:layout_constraintWidth_percent="0.7"
+            app:setSelected="@{processMode.selected}" />
+
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/light_grey"
+            android:layout_marginTop="@dimen/dimen_40"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

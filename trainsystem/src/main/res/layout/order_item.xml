@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <import type="android.view.View"/>
+
+        <variable
+            name="orderItem"
+            type="com.yly.trainsystem.ui.order.OrderItem" />
+
+        <variable
+            name="isExpired"
+            type="Boolean" />
+
+        <variable
+            name="refundListener"
+            type="android.view.View.OnClickListener" />
+
+        <variable
+            name="changeListener"
+            type="android.view.View.OnClickListener" />
+
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_marginTop="@dimen/list_item_margin"
+        android:paddingLeft="@dimen/list_item_margin"
+        android:paddingRight="@dimen/list_item_margin"
+        android:background="@drawable/item_shape"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/trainName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{orderItem.trainName}"
+            app:layout_constraintTop_toTopOf="parent"
+            android:gravity="center"
+            android:textSize="@dimen/list_item_text_size"
+            app:layout_constraintBottom_toTopOf="@id/divider"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/departure"
+            app:layout_constraintHorizontal_bias="0.12" />
+
+        <TextView
+            android:id="@+id/departure"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/departure"
+            android:gravity="center"
+            android:text="@{orderItem.departure}"
+            android:textSize="@dimen/list_item_text_size"
+            app:layout_constraintStart_toEndOf="@id/trainName"
+            app:layout_constraintEnd_toStartOf="@+id/direction"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintBottom_toTopOf="@id/divider"
+            app:layout_constraintVertical_bias="0.5"           />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/seat_size"
+            android:text="@{orderItem.departureTime}"
+            android:textColor="@android:color/holo_blue_light"
+            app:layout_constraintTop_toBottomOf="@id/departure"
+            app:layout_constraintStart_toStartOf="@id/departure"
+            app:layout_constraintEnd_toEndOf="@id/direction"
+            android:gravity="center"
+            />
+
+        <ImageView
+            android:id="@+id/direction"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/list_item_text_size"
+            app:layout_constraintStart_toEndOf="@+id/departure"
+            android:gravity="center"
+            app:layout_constraintEnd_toStartOf="@+id/destination"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/divider"
+            app:layout_constraintVertical_bias="0.5"
+            app:srcCompat="@drawable/icon_direction" />
+
+        <TextView
+            android:id="@+id/destination"
+            android:drawableStart="@drawable/destination"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/list_item_text_size"
+            android:text="@{orderItem.destination}"
+            android:gravity="center"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/divider"
+            app:layout_constraintVertical_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/direction"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:id="@+id/divider"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintVertical_bias="0.7"
+            android:background="@color/light_grey"
+            android:textColor="@android:color/white"
+            android:visibility="@{isExpired?View.GONE:View.VISIBLE}"
+            />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/refund"
+            app:layout_constraintTop_toBottomOf="@id/divider"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.6"
+            android:text="@string/refund"
+            android:background="@drawable/query"
+            android:textColor="@android:color/white"
+            app:setOnClickListener="@{refundListener}"
+            android:visibility="@{isExpired?View.GONE:View.VISIBLE}"
+            />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@id/refund"
+            app:layout_constraintTop_toBottomOf="@id/divider"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:text="@string/change"
+            android:background="@drawable/query"
+            android:textColor="@android:color/white"
+            app:setOnClickListener="@{changeListener}"
+            android:visibility="@{isExpired?View.GONE:View.VISIBLE}"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="ticket"
+            type="com.yly.trainsystem.ui.tickets.TicketViewModel" />
+
+        <variable
+            name="listener"
+            type="android.view.View.OnClickListener" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/padding_15"
+        android:paddingRight="@dimen/padding_15"
+        tools:context=".ui.tickets.TicketDetailActivity">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{ticket.trainName}"
+            android:textSize="@dimen/detail_item_size"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/departure"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            android:gravity="center"
+            android:id="@+id/trainName"
+            app:layout_constraintBottom_toBottomOf="@+id/ticketCategory"
+            />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:id="@+id/departure"
+            android:layout_height="wrap_content"
+            android:text="@{ticket.departure}"
+            android:textSize="@dimen/detail_item_size"
+            android:drawableStart="@drawable/departure"
+            app:layout_constraintTop_toTopOf="parent"
+            android:gravity="center"
+            app:layout_constraintBottom_toBottomOf="@+id/ticketCategory"
+            app:layout_constraintStart_toEndOf="@id/trainName"
+            app:layout_constraintEnd_toEndOf="@id/direction" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/seat_size"
+            android:text="@{ticket.departureTime}"
+            android:textColor="@android:color/holo_blue_light"
+            app:layout_constraintTop_toBottomOf="@id/departure"
+            app:layout_constraintStart_toStartOf="@id/departure"
+            app:layout_constraintEnd_toEndOf="@id/direction"
+            app:layout_constraintBottom_toTopOf="@id/divider"
+            android:gravity="center"
+            />
+
+        <ImageView
+            android:id="@+id/direction"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/list_item_text_size"
+            app:layout_constraintStart_toEndOf="@+id/departure"
+            app:layout_constraintEnd_toStartOf="@+id/destination"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/ticketCategory"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:srcCompat="@drawable/icon_direction" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:id="@+id/destination"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/destination"
+            android:text="@{ticket.destination}"
+            android:textSize="@dimen/detail_item_size"
+            android:gravity="center"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/ticketCategory"
+            app:layout_constraintStart_toEndOf="@id/direction"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            app:layout_constraintTop_toBottomOf="@id/departure"
+            app:layout_constraintVertical_bias="0.2"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:background="@android:color/darker_gray"
+            android:id="@+id/divider"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/ticketCategory"
+            app:layout_constraintTop_toBottomOf="@id/divider"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintVertical_bias="0.1"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_gravity="center"
+                android:text="@string/seat0"
+                android:textSize="@dimen/detail_seat_size"
+                tools:layout_editor_absoluteY="149dp" />
+
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/seat1"
+                android:layout_gravity="center"
+                android:textSize="@dimen/detail_seat_size"
+                />
+
+            <TextView
+                android:id="@+id/textView6"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/seat2"
+                android:layout_gravity="center"
+                android:textSize="@dimen/detail_seat_size" />
+
+        </LinearLayout>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/ticketCategory"
+            app:layout_constraintVertical_bias="0.1"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginTop="@dimen/dimen_20"
+            android:textSize="@dimen/detail_item_size"
+            android:background="@drawable/query"
+            android:text="@string/submit_order"
+            app:setOnClickListener="@{listener}"
+            />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

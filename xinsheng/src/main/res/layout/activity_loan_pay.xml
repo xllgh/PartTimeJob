@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+
+        <variable
+            name="model"
+            type="com.xll.xinsheng.model.LoanPayModel" />
+
+        <variable
+            name="submitListener"
+            type="android.view.View.OnClickListener" />
+
+        <variable
+            name="openFileListener"
+            type="android.view.View.OnClickListener" />
+
+        <variable
+            name="submitFileListener"
+            type="android.view.View.OnClickListener" />
+
+    </data>
+
+    <LinearLayout
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        >
+        <com.xll.xinsheng.myview.CompoTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:textName="@string/request_no"
+            app:textValue="@{model.ticketId}"
+            android:visibility="gone"
+            />
+        <com.xll.xinsheng.myview.CompoTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:textName="@string/sponsor"
+            app:textValue="@{model.userName}"
+            />
+        <com.xll.xinsheng.myview.CompoTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:textName="@string/people_dep"
+            />
+
+        <com.xll.xinsheng.myview.CompoSpinner
+            android:layout_width="match_parent"
+            android:id="@+id/request_project"
+            android:layout_height="wrap_content"
+            app:title="@string/request_project"
+            android:entries="@{model.projectEntries}"
+            />
+
+        <com.xll.xinsheng.myview.CompoSpinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/request_type"
+            app:title="@string/request_type"
+            app:entries="@{model.requestEntries}"
+            />
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/hint_order_code"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/process_type"
+                android:textColor="@color/blue_light"
+                android:textSize="@dimen/text_size20"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_percent="0.3" />
+
+            <Spinner
+                android:id="@+id/spinner"
+                android:layout_width="0dp"
+                android:paddingEnd="@dimen/margin_20"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_20"
+                android:entries="@{model.processEntries}"
+                android:gravity="start"
+                android:textSize="@dimen/text_size20"
+                app:layout_constraintStart_toEndOf="@id/hint_order_code"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_percent="0.7" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+       <!-- <com.xll.xinsheng.myview.CompoSpinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/process_type"
+            app:title="@string/process_type"
+            app:entries="@{model.processEntries}"
+            />-->
+        <com.xll.xinsheng.myview.CompoSpinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/bank_type"
+            app:entries="@{model.bankEntries}"
+            app:title="@string/bank_type"
+            />
+        <com.xll.xinsheng.myview.CompoEditView
+            android:layout_width="match_parent"
+            android:inputType="numberDecimal"
+            android:id="@+id/request_money"
+            app:editPrompt="@string/request_money"
+            app:editValue="@{model.requestMoney}"
+            android:layout_height="wrap_content"/>
+
+        <com.xll.xinsheng.myview.CompoTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/money_china_big"
+            android:visibility="gone"
+            app:textName="@string/money_china_big"
+            app:textValue="@{model.requestMoneyBig}"
+            />
+
+        <com.xll.xinsheng.myview.CompoEditView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/bank_name"
+            app:editPrompt="@string/bank_name"
+            app:editValue = "@{model.bankName}"
+            />
+
+        <com.xll.xinsheng.myview.CompoEditView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/bank_account"
+            app:editPrompt="@string/bank_account"
+            app:editValue = "@{model.bankAccount}"
+            />
+
+        <com.xll.xinsheng.myview.CompoEditView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/bank_network"
+            app:editPrompt="@string/bank_net_point"
+            app:editValue="@{model.bankNetwork}"
+            />
+
+        <com.xll.xinsheng.myview.CompoEditView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/request_reason"
+            app:editPrompt="@string/request_reason"
+            app:editValue="@{model.requestReason}"
+            app:editBackground="@drawable/shape_trangle"
+            app:editLine="6"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_80"
+            android:orientation="horizontal"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/upload_file"
+                android:textSize="@dimen/text_size20"
+                android:onClick="@{submitFileListener}"
+                android:layout_gravity="center_vertical"
+                android:drawableLeft="@drawable/upload_service"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{model.uploadFileName}"
+                android:drawableLeft="@drawable/upload_file"
+                android:layout_marginLeft="@dimen/padding_20"
+                android:onClick="@{openFileListener}"
+                android:layout_gravity="center_vertical"
+                />
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_marginTop="@dimen/margin_20"
+            android:text="@string/upload_file_hint"
+            android:textColor="@android:color/holo_red_light"
+            />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/selector_submit"
+            android:text="@string/submit"
+            android:textSize="@dimen/text_size20"
+            android:textColor="@android:color/white"
+            android:onClick="@{submitListener}"
+            />
+    </LinearLayout>
+</layout>

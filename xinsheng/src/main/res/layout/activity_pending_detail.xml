@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="handler"
+            type="com.xll.xinsheng.handler.PendingDetailHandler" />
+
+        <variable
+            name="tabIndex"
+            type="Integer" />
+
+        <variable
+            name="tabListener"
+            type="com.google.android.material.tabs.TabLayout.OnTabSelectedListener" />
+
+        <variable
+            name="isDone"
+            type="Boolean" />
+
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.tabs.TabLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tabLayout"
+                    app:OnTabSelectedListener="@{tabListener}"
+                    tools:context="com.xll.xinsheng.ui.ProcessDetailActivity">
+
+                </com.google.android.material.tabs.TabLayout>
+
+                <androidx.viewpager2.widget.ViewPager2
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:id="@+id/view_pager"
+                    android:layout_height="0dp"/>
+
+
+            </LinearLayout>
+
+        </ScrollView>
+
+        <Button
+            android:layout_width="match_parent"
+            android:background="@drawable/selector_submit"
+            android:text="@string/deal"
+            android:gravity="center"
+            android:textColor="@android:color/white"
+            android:layout_alignParentBottom="true"
+            android:visibility="@{isDone ? android.view.View.GONE : android.view.View.VISIBLE}"
+            android:onClick="@{() -> handler.onDealClick(context)}"
+            android:layout_height="wrap_content"/>
+
+    </RelativeLayout>
+
+</layout>
