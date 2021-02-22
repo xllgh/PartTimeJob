@@ -7,7 +7,7 @@
     <string name="pendingTicket">待办工单</string>
     <string name="doneTicket">已办工单</string>
 
-    <string name="reimbursePerson">报销人</string>
+    <string name="reimburse_person">报销人</string>
 
     <string name="loan_pay_request">借款/支付</string>
     <string name="projectManage">项目管理</string>
@@ -29,6 +29,7 @@
 
     <string name="apply_process">申报流程</string>
     <string name="request_no">申请单号</string>
+    <string name="reimburse_request_no">报销单号</string>
 
     <string name="apply_project">申报项目</string>
     <string name="apply_type">申请类别</string>
@@ -50,8 +51,8 @@
     <string name="add_money_detail">添加费用明细</string>
     <string name="upload_file">上传文件</string>
     <string name="sponsor">发起人</string>
-
-
+    <string name="add">添加</string>
+    <string name="upload">上传</string>
 
 
     <string name="zero">0</string>
@@ -82,6 +83,7 @@
     <string name="money_limit_hint">仅资金申请流程有用</string>
     <string name="process_node">流程节点</string>
     <string name="select">请选择</string>
+    <string name="choose_file">选择文件</string>
     <string name="add_process_node">添加流程节点</string>
 
     <string name="submit">提交</string>
@@ -94,7 +96,7 @@
     <string name="order_last_node">上个处理人:</string>
     <string name="order_status">订单状态:</string>
 
-    <string name="hint_input">请输入</string>
+    <string name="hint_input">请输入...</string>
 
     <string name="title_fee_type">请选择费用类型</string>
     <string name="title_project_type">请选择项目类型</string>
@@ -102,6 +104,7 @@
     <string name="title_reimburse_subject">请选择发票科目</string>
     <string name="no_info">暂无信息</string>
     <string name="is_save_login_info">是否记住用户名和密码</string>
+
 
     <string name="basic_info">基本信息</string>
     <string name="approval_info">审批流程</string>
@@ -153,6 +156,7 @@
     <string name="search_content">工单内容</string>
     <string name="loading">加载中。。。</string>
     <string name="request_project">申请项目</string>
+    <string name="reimbursement_project">报销项目</string>
     <string name="bank_type">开户行</string>
     <string name="bank_name">户名</string>
     <string name="bank_account">账号</string>
@@ -167,10 +171,19 @@
     <string name="upload_file_failed">上传文件失败</string>
     <string name="select_hint">请选择%s</string>
     <string name="edit_hint">请填写%s</string>
+    <string name="edit_num">\"%s\"的格式应该为数字</string>
     <string name="file_hint">请选择有效文件</string>
+    <string name="obtain_fail_hint">获取文件失败</string>
+
     <string name="upload_file_hint">1.如果提交审批流程包含附件，一点要点击“上传文件”后，再“提交”;如果包含多个附件，多次选择文件和上传文件。 2.上传文件之前一点要先选择“流程类型”</string>
 
+    <string name="project_select_hint">请选择报销项目</string>
+    <string name="invoice_select_hint">请选择发票科目</string>
     <string name="unknown_process_type">暂时不支持改类型流程的审批，请告知管理员</string>
+    <string name="reimburse_request_success">提交报销申请成功</string>
+    <string name="reimburse_request_fail">提交报销申请失败</string>
+    <string name="hint_insert_fee_detail">请添加费用明细数据</string>
+
     <string-array name="spinner_test">
         <item>test1</item>
         <item>test2</item>

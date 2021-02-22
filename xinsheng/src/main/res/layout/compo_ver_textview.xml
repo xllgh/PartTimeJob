@@ -17,43 +17,30 @@
 
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="@{clickListener}"
-        android:orientation="horizontal">
+        android:background="@android:color/white"
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/hint_order_code"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@{key}"
             android:textColor="@color/blue_light"
-            android:textSize="@dimen/text_size_15"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintWidth_percent="0.3" />
+            android:textSize="@dimen/text_size_15"/>
 
         <TextView
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_20"
             android:ellipsize="marquee"
             android:gravity="start"
             android:marqueeRepeatLimit="marquee_forever"
             android:singleLine="true"
-            android:layout_marginStart="@dimen/dimen_10"
             android:text="@{value}"
-            android:textSize="@dimen/text_size_15"
-            app:layout_constraintStart_toEndOf="@id/hint_order_code"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintWidth_percent="0.7" />
-
-      <!--  <TextView
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/light_grey"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />-->
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            android:textSize="@dimen/text_size_15" />
+    </LinearLayout>
 </layout>

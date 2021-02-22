@@ -9,13 +9,19 @@ import android.os.Build;
 import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
+import android.util.Log;
 
 import androidx.loader.content.CursorLoader;
 
 public class Uri2PathUtil {
     //复杂版处理  (适配多种API)
+    private static final String TAG = "Uri2PathUtil";
+
     public static String getRealPathFromUri(Context context, Uri uri) {
         int sdkVersion = Build.VERSION.SDK_INT;
+        if (uri != null) {
+            Log.i(TAG, "uri:" +  uri.toString() + " sdkVersion:" + sdkVersion);
+        }
         if (sdkVersion < 11) return getRealPathFromUri_BelowApi11(context, uri);
         if (sdkVersion < 19) return getRealPathFromUri_Api11To18(context, uri);
         else return getRealPathFromUri_AboveApi19(context, uri);

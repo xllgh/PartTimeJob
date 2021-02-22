@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="deleteListener"
+            type="android.view.View.OnClickListener" />
+
+        <variable
+            name="dateListener"
+            type="android.view.View.OnClickListener" />
+
+
+        <variable
+            name="model"
+            type="com.xll.xinsheng.model.ItemReimburseFee" />
+
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dimen_10"
+            android:background="@drawable/shape_white"
+            android:paddingStart="@dimen/dimen_10"
+            android:paddingEnd="@dimen/dimen_10"
+            android:orientation="vertical">
+
+            <com.xll.xinsheng.myview.CompoSpinner
+                android:id="@+id/reimburse_fee_type"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:entries="@{model.itemTypeName}"
+                app:title="@string/fee_type" />
+
+            <com.xll.xinsheng.myview.CompoSpinner
+                android:id="@+id/invoice_subject"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:entries="@{model.invoiceTypeName}"
+                app:title="@string/invoice_subject" />
+
+            <com.xll.xinsheng.myview.CompoTextView
+                android:id="@+id/fee_limit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:textName="@string/reimburse_limit"
+                app:textValue="@{model.reimburseLimitFee}" />
+
+            <com.xll.xinsheng.myview.CompoEditView
+                android:id="@+id/request_fee"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal"
+                app:editPrompt="@string/reimbursement_amount"
+                app:editValue="@{model.reimburseFee}" />
+
+            <com.xll.xinsheng.myview.CompoEditView
+                android:id="@+id/invoice_amount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:editPrompt="@string/invoice_amount"
+                android:inputType="number"
+                app:editValue="@{model.fpCount}" />
+
+            <com.xll.xinsheng.myview.CompoEditView
+                android:id="@+id/reimburse_remarks"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:editPrompt="@string/remarks"
+                app:editValue="@{model.remarks}" />
+
+            <com.xll.xinsheng.myview.CompoTextView
+                android:id="@+id/happen_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="@{dateListener}"
+                app:textName="@string/happen_date"
+                app:textValue="@{model.reimburseDate}" />
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableEnd="@drawable/delete"
+            android:gravity="end"
+            android:onClick="@{deleteListener}"
+            android:layout_gravity="bottom|end"
+            android:text="@string/delete"
+            android:paddingBottom="@dimen/dimen_10"
+            android:textColor="@color/blue_light" />
+
+    </FrameLayout>
+
+
+</layout>

@@ -14,22 +14,23 @@ import androidx.databinding.DataBindingUtil;
 
 import com.example.xinsheng.R;
 import com.example.xinsheng.databinding.CompoSpinnerBinding;
+import com.example.xinsheng.databinding.CompoVerSpinnerBinding;
 import com.xll.xinsheng.model.CompoSpinnerMode;
 
-public class CompoSpinner extends ConstraintLayout {
+public class CompoVerSpinner extends ConstraintLayout {
 
-    private static final String TAG = "CompoSpinner";
-    private CompoSpinnerBinding binding;
+    private static final String TAG = "CompoVerSpinner";
+    private CompoVerSpinnerBinding binding;
     private Context context;
 
-    public CompoSpinner(Context context) {
+    public CompoVerSpinner(Context context) {
         super(context);
         this.context = context;
         initView(context);
 
     }
 
-    public CompoSpinner(Context context, AttributeSet attrs) {
+    public CompoVerSpinner(Context context, AttributeSet attrs) {
         super(context, attrs);
         this.context = context;
         initView(context);
@@ -37,7 +38,7 @@ public class CompoSpinner extends ConstraintLayout {
 
     }
 
-    public CompoSpinner(Context context, AttributeSet attrs, int defStyleAttr) {
+    public CompoVerSpinner(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         initView(context);
         this.context = context;
@@ -46,8 +47,8 @@ public class CompoSpinner extends ConstraintLayout {
     }
 
     public int getCurrentPosition() {
-        if (mode != null && binding !=null) {
-           return binding.spinner.getSelectedItemPosition();
+        if (mode != null && binding != null) {
+            return binding.spinner.getSelectedItemPosition();
            // return mode.getCurPosition();
         }
         return 0;
@@ -63,7 +64,7 @@ public class CompoSpinner extends ConstraintLayout {
 
 
     private void initView(Context context) {
-        binding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.compo_spinner, this, true);
+        binding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.compo_ver_spinner, this, true);
     }
 
     CompoSpinnerMode mode;

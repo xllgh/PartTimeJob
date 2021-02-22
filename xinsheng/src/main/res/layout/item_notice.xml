@@ -16,6 +16,7 @@
         android:layout_height="wrap_content"
         android:text="@{notice.title}"
         android:onClick="@{listener}"
+        android:layout_marginTop="@dimen/dimen_5"
         android:layout_width="match_parent" />
 </layout>
 

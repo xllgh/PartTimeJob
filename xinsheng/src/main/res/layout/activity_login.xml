@@ -39,17 +39,17 @@
             android:textSize="@dimen/text_size44"
             android:textColor="@android:color/white"
             android:textStyle="bold"
-            android:paddingTop="@dimen/padding_40"
+            android:paddingTop="@dimen/dp_20"
             android:layout_gravity="center_horizontal"
             />
 
         <androidx.cardview.widget.CardView
             android:layout_height="@dimen/height1066"
             android:layout_gravity="center_vertical"
-            android:layout_marginTop="@dimen/padding_40"
+            android:layout_marginTop="@dimen/dp_20"
             app:cardCornerRadius="5dp"
-            android:layout_marginLeft="@dimen/padding_40"
-            android:layout_marginRight="@dimen/padding_40"
+            android:layout_marginLeft="@dimen/dp_20"
+            android:layout_marginRight="@dimen/dp_20"
             android:background="@android:color/white"
             android:layout_width="match_parent">
 

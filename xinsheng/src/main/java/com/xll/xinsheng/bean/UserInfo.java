@@ -97,4 +97,19 @@ public class UserInfo implements Serializable {
     public void setOrgName(String orgName) {
         this.orgName = orgName;
     }
+
+    @Override
+    public String toString() {
+        return "UserInfo{" +
+                "img='" + img + '\'' +
+                ", sex='" + sex + '\'' +
+                ", mobile='" + mobile + '\'' +
+                ", sort=" + sort +
+                ", orgid='" + orgid + '\'' +
+                ", all_fee='" + all_fee + '\'' +
+                ", name='" + name + '\'' +
+                ", id='" + id + '\'' +
+                ", orgName='" + orgName + '\'' +
+                '}';
+    }
 }

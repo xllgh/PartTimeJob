@@ -15,7 +15,10 @@
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.xll.xinsheng.ui.NoticeDetailActivity"></activity>
+        <activity
+            android:name="com.xll.xinsheng.ui.ReimburseRequestActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity android:name="com.xll.xinsheng.ui.NoticeDetailActivity" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -37,7 +40,9 @@
             android:name="com.xll.xinsheng.ui.ReimburseManageActivity"
             android:label="@string/reimburseManage" />
         <activity android:name="com.xll.xinsheng.ui.ProcessListActivity" />
-        <activity android:name="com.xll.xinsheng.ui.LoanPayRequestActivity" />
+        <activity
+            android:name="com.xll.xinsheng.ui.LoanPayRequestActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name="com.xll.xinsheng.ui.LoginActivity"
             android:launchMode="singleTask"

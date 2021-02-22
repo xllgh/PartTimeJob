@@ -40,7 +40,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/pending_order_no"
                     android:textColor="@color/blue_light"
-                    android:textSize="@dimen/text_size20"
+                    android:textSize="@dimen/sp_15"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintWidth_percent="0.3" />
@@ -54,7 +54,7 @@
                     android:text="@{paymentInfo.orderId}"
                     android:marqueeRepeatLimit="marquee_forever"
                     android:singleLine="true"
-                    android:textSize="@dimen/text_size20"
+                    android:textSize="@dimen/sp_15"
                     app:layout_constraintStart_toEndOf="@id/hint_order_code"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintWidth_percent="0.7" />
@@ -80,7 +80,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/initiator"
                     android:textColor="@color/blue_light"
-                    android:textSize="@dimen/text_size20"
+                    android:textSize="@dimen/sp_15"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintWidth_percent="0.3" />
@@ -94,7 +94,7 @@
                     android:text="@{paymentInfo.name}"
                     android:marqueeRepeatLimit="marquee_forever"
                     android:singleLine="true"
-                    android:textSize="@dimen/text_size20"
+                    android:textSize="@dimen/sp_15"
                     app:layout_constraintStart_toEndOf="@id/hint_reimburse_person"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintWidth_percent="0.7" />
@@ -119,7 +119,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/people_dep"
                     android:textColor="@color/blue_light"
-                    android:textSize="@dimen/text_size20"
+                    android:textSize="@dimen/sp_15"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintWidth_percent="0.3" />
@@ -133,7 +133,7 @@
                     android:text="@{paymentInfo.org_name}"
                     android:marqueeRepeatLimit="marquee_forever"
                     android:singleLine="true"
-                    android:textSize="@dimen/text_size20"
+                    android:textSize="@dimen/sp_15"
                     app:layout_constraintStart_toEndOf="@id/hint_reimburse_dep"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintWidth_percent="0.7" />
@@ -159,7 +159,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/fee_dep"
                     android:textColor="@color/blue_light"
-                    android:textSize="@dimen/text_size20"
+                    android:textSize="@dimen/sp_15"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintWidth_percent="0.3" />
@@ -173,7 +173,7 @@
                     android:text="@{paymentInfo.fee_dept}"
                     android:marqueeRepeatLimit="marquee_forever"
                     android:singleLine="true"
-                    android:textSize="@dimen/text_size20"
+                    android:textSize="@dimen/sp_15"
                     app:layout_constraintStart_toEndOf="@id/hint_reimburse_fee_dep"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintWidth_percent="0.7" />
@@ -199,7 +199,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/reimburse_project"
                     android:textColor="@color/blue_light"
-                    android:textSize="@dimen/text_size20"
+                    android:textSize="@dimen/sp_15"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintWidth_percent="0.3" />
@@ -212,7 +212,7 @@
                     android:gravity="start"
                     android:marqueeRepeatLimit="marquee_forever"
                     android:singleLine="true"
-                    android:textSize="@dimen/text_size20"
+                    android:textSize="@dimen/sp_15"
                     android:text="@{paymentInfo.project_name}"
                     app:layout_constraintStart_toEndOf="@id/hint_reimburse_project"
                     app:layout_constraintTop_toTopOf="parent"
@@ -238,7 +238,7 @@
                     android:layout_height="wrap_content"
                     android:text="@{isReimburse ? @string/reimburse_used_fee : @string/request_fee}"
                     android:textColor="@color/blue_light"
-                    android:textSize="@dimen/text_size20"
+                    android:textSize="@dimen/sp_15"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintWidth_percent="0.3" />
@@ -252,7 +252,7 @@
                     android:text="@{isReimburse ? String.valueOf(paymentInfo.all_fee) : String.valueOf(paymentInfo.fee)}"
                     android:marqueeRepeatLimit="marquee_forever"
                     android:singleLine="true"
-                    android:textSize="@dimen/text_size20"
+                    android:textSize="@dimen/sp_15"
                     app:layout_constraintStart_toEndOf="@id/hint_reimburse_used_fee"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintWidth_percent="0.7" />
@@ -278,7 +278,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/request_type"
                     android:textColor="@color/blue_light"
-                    android:textSize="@dimen/text_size20"
+                    android:textSize="@dimen/sp_15"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintWidth_percent="0.3" />
@@ -292,7 +292,7 @@
                     android:text="@{paymentInfo.item_type_name}"
                     android:marqueeRepeatLimit="marquee_forever"
                     android:singleLine="true"
-                    android:textSize="@dimen/text_size20"
+                    android:textSize="@dimen/sp_15"
                     app:layout_constraintStart_toEndOf="@id/hint_pay_loan_fee_type"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintWidth_percent="0.7" />
@@ -321,7 +321,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/related_loan_process"
                     android:textColor="@color/blue_light"
-                    android:textSize="@dimen/text_size20"
+                    android:textSize="@dimen/sp_15"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintWidth_percent="0.3" />
@@ -334,7 +334,7 @@
                     android:gravity="start"
                     android:marqueeRepeatLimit="marquee_forever"
                     android:singleLine="true"
-                    android:textSize="@dimen/text_size20"
+                    android:textSize="@dimen/sp_15"
                     app:layout_constraintStart_toEndOf="@id/hint_reimburse_relate_process"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintWidth_percent="0.7" />
@@ -360,7 +360,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/left_money"
                     android:textColor="@color/blue_light"
-                    android:textSize="@dimen/text_size20"
+                    android:textSize="@dimen/sp_15"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintWidth_percent="0.3" />
@@ -373,7 +373,7 @@
                     android:gravity="start"
                     android:marqueeRepeatLimit="marquee_forever"
                     android:singleLine="true"
-                    android:textSize="@dimen/text_size20"
+                    android:textSize="@dimen/sp_15"
                     app:layout_constraintStart_toEndOf="@id/hint_reimburse_process_fee"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintWidth_percent="0.7" />
@@ -400,7 +400,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/sum_fee"
                     android:textColor="@color/blue_light"
-                    android:textSize="@dimen/text_size20"
+                    android:textSize="@dimen/sp_15"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintWidth_percent="0.3" />
@@ -414,7 +414,7 @@
                     android:marqueeRepeatLimit="marquee_forever"
                     android:singleLine="true"
                     android:text="@{String.valueOf(paymentInfo.bx_fee)}"
-                    android:textSize="@dimen/text_size20"
+                    android:textSize="@dimen/sp_15"
                     app:layout_constraintStart_toEndOf="@id/hint_reimburse_sum_fee"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintWidth_percent="0.7" />
@@ -441,20 +441,19 @@
                     android:layout_height="wrap_content"
                     android:text="@{isReimburse ? @string/reimbursement_reason: @string/pay_loan_reason}"
                     android:textColor="@color/blue_light"
-                    android:textSize="@dimen/text_size20"
+                    android:textSize="@dimen/sp_15"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_20"
                     android:background="@drawable/shape_trangle"
                     android:gravity="start"
                     android:lines="6"
                     android:text="@{isReimburse ? paymentInfo.bx_desc : paymentInfo.seal_desc}"
                     android:marqueeRepeatLimit="marquee_forever"
-                    android:textSize="@dimen/text_size20"
+                    android:textSize="@dimen/sp_15"
                     app:layout_constraintTop_toBottomOf="@id/hint_reimburse_reason"
                     app:layout_constraintEnd_toStartOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -472,7 +471,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/money_detail"
                     android:textStyle="bold"
-                    android:textSize="@dimen/text_size20"
+                    android:textSize="@dimen/sp_15"
                     />
                 <TextView
                     android:layout_width="match_parent"

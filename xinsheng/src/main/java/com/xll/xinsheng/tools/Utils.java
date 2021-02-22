@@ -102,8 +102,7 @@ public class Utils {
     }
 
     @BindingAdapter({"app:imgUrl"})
-    public static void
-    getTransImageView(ImageView imageView, int res) {
+    public static void getTransImageView(ImageView imageView, int res) {
         imageView.setImageResource(res);
     }
 
@@ -118,8 +117,8 @@ public class Utils {
         textView.setSelectAllOnFocus(true);
     }
 
-    @BindingAdapter({"app:setOnItemClickListener"})
-    public static void setOnItemClickListener(Spinner spinner, AdapterView.OnItemSelectedListener listener) {
+    @BindingAdapter({"app:setOnItemSelectListener"})
+    public static void setOnItemSelectListener(Spinner spinner, AdapterView.OnItemSelectedListener listener) {
         spinner.setOnItemSelectedListener(listener);
     }
 
@@ -140,5 +139,17 @@ public class Utils {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
         String datetime = sdf.format(date);
         return "bx-" + datetime.substring(0, 8) + "-" + datetime.substring(8);
+    }
+
+    public static float parseToFloat(String value) {
+        if (TextUtils.isEmpty(value)) {
+            return 0;
+        }
+        try {
+          return  Float.parseFloat(value);
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            return 0;
+        }
     }
 }

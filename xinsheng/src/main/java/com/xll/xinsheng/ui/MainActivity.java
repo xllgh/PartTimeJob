@@ -27,6 +27,7 @@ import com.xll.xinsheng.cache.Cache;
 import com.xll.xinsheng.handler.MainEventHandler;
 import com.xll.xinsheng.model.DoneProcess;
 import com.xll.xinsheng.model.PendingProcess;
+import com.xll.xinsheng.model.ReimburseRequestModel;
 import com.xll.xinsheng.model.WorkViewModel;
 import com.xll.xinsheng.tools.HttpUtils;
 
@@ -203,21 +204,21 @@ public class MainActivity extends XinActivity {
         });
         WorkViewModel project = new WorkViewModel(getString(R.string.projectManage), R.drawable.project, listener);
         WorkViewModel apply = new WorkViewModel(getString(R.string.applyManage), R.drawable.apply, listener);
-        WorkViewModel reimburse = new WorkViewModel(getString(R.string.reimburseManage), R.drawable.reimburse, listener/*, new View.OnClickListener() {
+        WorkViewModel reimburse = new WorkViewModel(getString(R.string.reimburseManage), R.drawable.reimburse, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, ReimburseManageActivity.class);
+                Intent intent = new Intent(MainActivity.this, ReimburseRequestActivity.class);
                 startActivity(intent);
             }
-        }*/);
+        });
         WorkViewModel doc = new WorkViewModel(getString(R.string.docManage), R.drawable.doc, listener);
         WorkViewModel human = new WorkViewModel(getString(R.string.humanManage), R.drawable.human, listener);
 
         List<WorkViewModel> list = new ArrayList<>();
         list.add(process);
+        list.add(reimburse);
         list.add(project);
         list.add(apply);
-        list.add(reimburse);
         list.add(doc);
         list.add(human);
 

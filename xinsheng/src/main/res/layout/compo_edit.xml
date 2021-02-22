@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:text="@{key}"
             android:textColor="@color/blue_light"
-            android:textSize="@dimen/text_size20"
+            android:textSize="@dimen/text_size_15"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintWidth_percent="0.3" />
@@ -38,17 +38,14 @@
             android:layout_width="0dp"
             android:id="@+id/edit"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_20"
             android:gravity="start"
-            android:textSize="@dimen/text_size20"
+            android:textSize="@dimen/text_size_15"
+            android:layout_marginStart="@dimen/dimen_10"
             android:hint="@string/hint_input"
             android:text="@={value}"
             android:background="@null"
             app:layout_constraintStart_toEndOf="@id/hint_order_code"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintWidth_percent="0.7" />
-
-
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

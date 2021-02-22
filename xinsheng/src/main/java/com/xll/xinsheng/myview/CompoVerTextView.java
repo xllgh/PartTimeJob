@@ -11,30 +11,31 @@ import androidx.databinding.DataBindingUtil;
 
 import com.example.xinsheng.R;
 import com.example.xinsheng.databinding.CompoTextviewBinding;
+import com.example.xinsheng.databinding.CompoVerTextviewBinding;
 
-public class CompoTextView extends ConstraintLayout {
+public class CompoVerTextView extends ConstraintLayout {
 
-    private CompoTextviewBinding binding;
+    private CompoVerTextviewBinding binding;
 
-    public CompoTextView(Context context) {
+    public CompoVerTextView(Context context) {
         super(context);
         initView(context);
     }
 
-    public CompoTextView(Context context, AttributeSet attrs) {
+    public CompoVerTextView(Context context, AttributeSet attrs) {
         super(context, attrs);
         initView(context);
         initAttr(context, attrs);
     }
 
-    public CompoTextView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public CompoVerTextView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         initView(context);
         initAttr(context, attrs);
     }
 
     private void initView(Context context) {
-        binding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.compo_textview, this, true);
+        binding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.compo_ver_textview, this, true);
     }
 
     public void setListener(OnClickListener listener) {

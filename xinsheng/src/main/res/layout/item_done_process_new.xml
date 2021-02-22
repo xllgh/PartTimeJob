@@ -22,9 +22,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/shape_white"
-        android:paddingTop="@dimen/padding_40"
-        android:paddingStart="@dimen/padding_40"
-        android:paddingEnd="@dimen/padding_40"
+        android:paddingStart="@dimen/dimen_10"
+        android:paddingTop="@dimen/dimen_10"
+        android:paddingEnd="@dimen/dimen_10"
         android:onClick="@{listener}">
 
         <TextView
@@ -55,11 +55,12 @@
             android:singleLine="true"
             android:text="@{processMode.orderName}"
             android:textStyle="bold"
-            android:textSize="@dimen/text_size20"
+            android:textSize="@dimen/text_size_15"
             android:id="@+id/order_name"
             app:layout_constraintStart_toEndOf="@id/img"
             app:layout_constraintEnd_toStartOf="@id/select"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:setSelected="@{processMode.selected}" />
 
         <ImageView
@@ -83,7 +84,7 @@
             android:id="@+id/order_creator"
             android:singleLine="true"
             android:text="@{processMode.name}"
-            android:textSize="@dimen/text_size_15"
+            android:textSize="@dimen/text_size12"
             app:layout_constraintStart_toEndOf="@id/img"
             app:layout_constraintTop_toBottomOf="@id/order_name"
             app:setSelected="@{processMode.selected}" />
@@ -97,7 +98,7 @@
             android:marqueeRepeatLimit="marquee_forever"
             android:singleLine="true"
             android:text="@{processMode.processType}"
-            android:textSize="@dimen/text_size_15"
+            android:textSize="@dimen/text_size12"
             app:layout_constraintStart_toEndOf="@id/order_creator"
             app:layout_constraintTop_toBottomOf="@id/order_name"
             app:layout_constraintWidth_percent="0.7"

@@ -85,4 +85,6 @@ public class InitialData implements Serializable {
     public void setUsercaption(String usercaption) {
         this.usercaption = usercaption;
     }
+
+
 }

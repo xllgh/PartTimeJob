@@ -75,13 +75,13 @@
                 android:src="@drawable/back"
                 android:layout_marginStart="@dimen/dimen_30"
                 android:onClick="@{()-> handler.onBackClick(context)}"
-                android:paddingTop="@dimen/padding_40"
+                android:paddingTop="@dimen/dp_20"
                 />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingTop="@dimen/padding_40"
+                android:paddingTop="@dimen/dp_20"
                 android:layout_gravity="end"
                 android:layout_marginEnd="@dimen/dimen_30"
                 android:onClick="@{(view) -> handler.onPopupMenu(view, context)}"
@@ -94,14 +94,14 @@
                 android:textColor="@android:color/white"
                 android:text="@string/workstation"
                 android:textStyle="bold"
-                android:textSize="@dimen/text_size20"
-                android:paddingTop="@dimen/padding_40"
+                android:textSize="@dimen/sp_15"
+                android:paddingTop="@dimen/dp_20"
                 android:layout_height="wrap_content" />
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_marginLeft="@dimen/margin_20"
-                android:layout_marginRight="@dimen/margin_20"
+                android:layout_marginLeft="@dimen/padding_15"
+                android:layout_marginRight="@dimen/padding_15"
                 android:layout_gravity="bottom|center_horizontal"
                 android:layout_height="100dp">
 
@@ -198,7 +198,7 @@
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
                 android:id="@+id/online_work"
-                android:textSize="@dimen/text_size20"
+                android:textSize="@dimen/sp_15"
                 android:textStyle="bold"
                 android:text="@string/online_work" />
 
@@ -225,7 +225,7 @@
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
                 android:id="@+id/my_application"
-                android:textSize="@dimen/text_size20"
+                android:textSize="@dimen/sp_15"
                 android:textStyle="bold"
                 android:text="@string/announcementManage" />
 

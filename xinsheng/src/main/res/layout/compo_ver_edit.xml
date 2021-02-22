@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+
+    <data>
+        <variable
+            name="key"
+            type="String" />
+
+        <variable
+            name="value"
+            type="String" />
+
+        <variable
+            name="lines"
+            type="Integer" />
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/hint_order_code"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="@{key}"
+            android:drawableStart="@drawable/star"
+            android:padding="@dimen/dimen_10"
+            android:gravity="center_vertical"
+            android:textSize="@dimen/text_size_15"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:id="@+id/edit"
+            android:layout_height="wrap_content"
+            android:gravity="start"
+            android:padding="@dimen/dimen_10"
+            android:textSize="@dimen/text_size_15"
+            android:hint="@string/hint_input"
+            android:text="@={value}"
+           />
+    </LinearLayout>
+</layout>

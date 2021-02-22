@@ -53,15 +53,14 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentStart="true"
                         android:drawableStart="@drawable/star"
-                        android:text="@string/reimbursePerson"
-                        android:textSize="@dimen/text_size20" />
+                        android:textSize="@dimen/sp_15" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:text="@{model.userName}"
-                        android:textSize="@dimen/text_size20" />
+                        android:textSize="@dimen/sp_15" />
 
                     <TextView
                         android:layout_width="match_parent"
@@ -85,14 +84,14 @@
                         android:layout_alignParentStart="true"
                         android:drawableStart="@drawable/star"
                         android:text="@string/order_no"
-                        android:textSize="@dimen/text_size20" />
+                        android:textSize="@dimen/sp_15" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:text="@={model.orderNo}"
-                        android:textSize="@dimen/text_size20" />
+                        android:textSize="@dimen/sp_15" />
 
                     <TextView
                         android:layout_width="match_parent"
@@ -119,14 +118,14 @@
                         android:drawableStart="@drawable/star"
                         android:drawableLeft="@drawable/star"
                         android:text="@string/apply_department"
-                        android:textSize="@dimen/text_size20" />
+                        android:textSize="@dimen/sp_15" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:text="@{model.userDepartment}"
-                        android:textSize="@dimen/text_size20" />
+                        android:textSize="@dimen/sp_15" />
 
                     <TextView
                         android:layout_width="match_parent"
@@ -172,7 +171,7 @@
                         android:drawableStart="@drawable/star"
                         android:id="@+id/reimburse_project"
                         android:text="@string/apply_project"
-                        android:textSize="@dimen/text_size20" />
+                        android:textSize="@dimen/sp_15" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -181,7 +180,7 @@
                         android:drawableEnd="@drawable/select"
                         android:text="@={model.selectProject}"
                         android:onClick="@{()->handler.showProjectTypeDialog(context, model)}"
-                        android:textSize="@dimen/text_size20" />
+                        android:textSize="@dimen/sp_15" />
 
                     <TextView
                         android:layout_width="match_parent"
@@ -205,7 +204,7 @@
                         android:layout_alignParentStart="true"
                         android:drawableStart="@drawable/star"
                         android:text="@string/apply_type"
-                        android:textSize="@dimen/text_size20" />
+                        android:textSize="@dimen/sp_15" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -213,7 +212,7 @@
                         android:layout_alignParentEnd="true"
                         android:drawableEnd="@drawable/select"
                         android:text="@string/select"
-                        android:textSize="@dimen/text_size20" />
+                        android:textSize="@dimen/sp_15" />
 
                     <TextView
                         android:layout_width="match_parent"
@@ -237,7 +236,7 @@
                         android:layout_alignParentStart="true"
                         android:gravity="center_vertical"
                         android:text="@string/apply_limit"
-                        android:textSize="@dimen/text_size20" />
+                        android:textSize="@dimen/sp_15" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -245,7 +244,7 @@
                         android:layout_alignParentEnd="true"
                         android:drawableEnd="@drawable/select"
                         android:gravity="center_vertical"
-                        android:textSize="@dimen/text_size20" />
+                        android:textSize="@dimen/sp_15" />
 
                     <TextView
                         android:layout_width="match_parent"
@@ -271,7 +270,7 @@
                         android:layout_height="wrap_content"
                         android:drawableStart="@drawable/star"
                         android:text="@string/reimbursement_reason"
-                        android:textSize="@dimen/text_size20" />
+                        android:textSize="@dimen/sp_15" />
 
                     <EditText
                         android:layout_width="wrap_content"
@@ -280,7 +279,7 @@
                         android:gravity="top|start"
                         android:hint="@string/hint_input"
                         android:lines="4"
-                        android:textSize="@dimen/text_size20" />
+                        android:textSize="@dimen/sp_15" />
 
                 </LinearLayout>
             </LinearLayout>
@@ -314,7 +313,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentStart="true"
                         android:text="@string/fee_type"
-                        android:textSize="@dimen/text_size20" />
+                        android:textSize="@dimen/sp_15" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -325,7 +324,7 @@
                         android:clickable="true"
                         android:focusable="true"
                         android:onClick="@{()->handler.showFeeTypeDialog(context, model)}"
-                        android:textSize="@dimen/text_size20" />
+                        android:textSize="@dimen/sp_15" />
 
                     <TextView
                         android:layout_width="match_parent"
@@ -348,7 +347,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentStart="true"
                         android:text="@string/invoice_subject"
-                        android:textSize="@dimen/text_size20" />
+                        android:textSize="@dimen/sp_15" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -356,7 +355,7 @@
                         android:layout_alignParentEnd="true"
                         android:drawableEnd="@drawable/select"
                         android:text="@string/select"
-                        android:textSize="@dimen/text_size20" />
+                        android:textSize="@dimen/sp_15" />
 
                     <TextView
                         android:layout_width="match_parent"
@@ -379,14 +378,14 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentStart="true"
                         android:text="@string/reimburse_limit"
-                        android:textSize="@dimen/text_size20" />
+                        android:textSize="@dimen/sp_15" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:text="@{model.reimburseLimit}"
-                        android:textSize="@dimen/text_size20" />
+                        android:textSize="@dimen/sp_15" />
 
                     <TextView
                         android:layout_width="match_parent"
@@ -409,7 +408,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentStart="true"
                         android:text="@string/reimbursement_amount"
-                        android:textSize="@dimen/text_size20" />
+                        android:textSize="@dimen/sp_15" />
 
                     <EditText
                         android:layout_width="wrap_content"
@@ -417,7 +416,7 @@
                         android:layout_alignParentEnd="true"
                         android:text="@string/hint_input"
                         android:background="@null"
-                        android:textSize="@dimen/text_size20" />
+                        android:textSize="@dimen/sp_15" />
 
                     <TextView
                         android:layout_width="match_parent"
@@ -443,7 +442,7 @@
                         android:layout_alignParentStart="true"
                         android:gravity="center_vertical"
                         android:text="@string/happen_date"
-                        android:textSize="@dimen/text_size20" />
+                        android:textSize="@dimen/sp_15" />
 
                     <EditText
                         android:layout_width="wrap_content"
@@ -452,7 +451,7 @@
                         android:gravity="center_vertical"
                         android:background="@null"
                         android:text="@string/hint_input"
-                        android:textSize="@dimen/text_size20" />
+                        android:textSize="@dimen/sp_15" />
 
                     <TextView
                         android:layout_width="match_parent"
@@ -477,7 +476,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentStart="true"
                         android:text="@string/invoice_amount"
-                        android:textSize="@dimen/text_size20" />
+                        android:textSize="@dimen/sp_15" />
 
                     <EditText
                         android:layout_width="wrap_content"
@@ -485,7 +484,7 @@
                         android:layout_alignParentEnd="true"
                         android:hint="@string/hint_input"
                         android:background="@null"
-                        android:textSize="@dimen/text_size20" />
+                        android:textSize="@dimen/sp_15" />
 
                     <TextView
                         android:layout_width="match_parent"
@@ -509,7 +508,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentStart="true"
                         android:text="@string/remarks"
-                        android:textSize="@dimen/text_size20" />
+                        android:textSize="@dimen/sp_15" />
 
                     <EditText
                         android:layout_width="wrap_content"
@@ -517,7 +516,7 @@
                         android:layout_alignParentEnd="true"
                         android:hint="@string/hint_input"
                         android:background="@null"
-                        android:textSize="@dimen/text_size20" />
+                        android:textSize="@dimen/sp_15" />
 
                     <TextView
                         android:layout_width="match_parent"
@@ -536,7 +535,7 @@
                     android:drawableStart="@drawable/add"
                     android:gravity="center"
                     android:text="@string/add_money_detail"
-                    android:textSize="@dimen/text_size20" />
+                    android:textSize="@dimen/sp_15" />
 
             </LinearLayout>
 
@@ -590,7 +589,7 @@
                 android:layout_marginRight="@dimen/margin_20"
                 android:background="@drawable/selector_submit"
                 android:text="@string/submit"
-                android:textSize="@dimen/text_size20"
+                android:textSize="@dimen/sp_15"
                 app:layout_constraintBottom_toBottomOf="parent" />
 
             <LinearLayout

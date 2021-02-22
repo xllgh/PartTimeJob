@@ -12,24 +12,26 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.databinding.DataBindingUtil;
 
 import com.example.xinsheng.R;
-import com.example.xinsheng.databinding.CompoEditBinding;
 
-public class CompoEditView extends ConstraintLayout {
+import com.example.xinsheng.databinding.CompoVerEditBinding;
 
-    CompoEditBinding binding;
 
-    public CompoEditView(Context context) {
+public class CompoVerEditView extends ConstraintLayout {
+
+    CompoVerEditBinding binding;
+
+    public CompoVerEditView(Context context) {
         super(context);
         initView(context);
     }
 
-    public CompoEditView(Context context, AttributeSet attrs) {
+    public CompoVerEditView(Context context, AttributeSet attrs) {
         super(context, attrs);
         initView(context);
         initAttr(context, attrs);
     }
 
-    public CompoEditView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public CompoVerEditView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         initView(context);
         initAttr(context, attrs);
@@ -48,7 +50,7 @@ public class CompoEditView extends ConstraintLayout {
     }
 
     private void initView(Context context) {
-      binding =  DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.compo_edit, this, true );
+      binding =  DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.compo_ver_edit, this, true );
     }
 
     public interface OnEditChangeListener{

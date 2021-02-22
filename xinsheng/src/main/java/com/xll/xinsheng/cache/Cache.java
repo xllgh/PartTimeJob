@@ -23,6 +23,8 @@ public class Cache<T> {
 
     public static final String GENERAL_INFO = "GENERAL_INFO";
 
+    public static final String KMXX_INFO = "KMXX_INFO";
+
     public static final String KEY_SAVE_LOGIN = "save_login_info";
 
     public static final String KEY_USERNAME = "key_username";

@@ -39,7 +39,7 @@ public class HttpUtils<T> {
     public static final String PENDING_ORDER = HOST_REMOTE + "/admin/objpayment/getDaiBanList";
     public static final String DONE_ORDER = HOST_REMOTE + "/admin/objproject/getYiBanList";
     public static final String DONE_LIST = HOST_REMOTE + "/admin/objproject/getYiBanList";
-    public static final String INVOICE_TYPE = HOST_REMOTE + "/admin/objproject/getkmxx";
+    public static final String INVOICE_TYPE = HOST_REMOTE + "/admin/objpayment/getkmxx";
     public static final String FILE_URL_HEADER = "http://39.98.167.156:8081/upload/";
     public static final String ORDER_EDITE = HOST_REMOTE + "/admin/objproject/getOrderEditPage";
     public static final String REIMBURSE_DEAL = HOST_REMOTE + "/admin/objpayment/paymentEditSave";
@@ -52,7 +52,6 @@ public class HttpUtils<T> {
 
 
     public interface XinResponseListener {
-
         void onResponse(String response);
     }
 

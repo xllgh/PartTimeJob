@@ -65,7 +65,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="@string/search_order_id"
-                    android:textSize="@dimen/text_size20"
+                    android:textSize="@dimen/sp_15"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintWidth_percent="0.3" />
@@ -81,7 +81,7 @@
                     android:background="@null"
                     android:text="@={searchModel.orderId}"
                     android:hint="@string/hint_input"
-                    android:textSize="@dimen/text_size20"
+                    android:textSize="@dimen/sp_15"
                     app:layout_constraintStart_toEndOf="@id/order_id"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintWidth_percent="0.7" />
@@ -109,7 +109,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="@string/search_order_name"
-                    android:textSize="@dimen/text_size20"
+                    android:textSize="@dimen/sp_15"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintWidth_percent="0.3" />
@@ -125,7 +125,7 @@
                     android:text="@={searchModel.name}"
                     android:background="@null"
                     android:hint="@string/hint_input"
-                    android:textSize="@dimen/text_size20"
+                    android:textSize="@dimen/sp_15"
                     app:layout_constraintStart_toEndOf="@id/order_name"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintWidth_percent="0.7" />
@@ -152,7 +152,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="@string/search_initiator"
-                    android:textSize="@dimen/text_size20"
+                    android:textSize="@dimen/sp_15"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintWidth_percent="0.3" />
@@ -168,7 +168,7 @@
                     android:id="@+id/e_initiator"
                     android:text="@={searchModel.initiator}"
                     android:hint="@string/hint_input"
-                    android:textSize="@dimen/text_size20"
+                    android:textSize="@dimen/sp_15"
                     app:layout_constraintStart_toEndOf="@id/initiator"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintWidth_percent="0.7" />
@@ -195,7 +195,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="@string/search_content"
-                    android:textSize="@dimen/text_size20"
+                    android:textSize="@dimen/sp_15"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintWidth_percent="0.3" />
@@ -211,7 +211,7 @@
                     android:id="@+id/e_content"
                     android:background="@null"
                     android:hint="@string/hint_input"
-                    android:textSize="@dimen/text_size20"
+                    android:textSize="@dimen/sp_15"
                     app:layout_constraintStart_toEndOf="@id/content"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintWidth_percent="0.7" />
