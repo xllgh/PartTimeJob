@@ -20,4 +20,12 @@ public class BankType {
     public void setBank_name(String bank_name) {
         this.bank_name = bank_name;
     }
+
+    @Override
+    public String toString() {
+        return "BankType{" +
+                "bank_id='" + bank_id + '\'' +
+                ", bank_name='" + bank_name + '\'' +
+                '}';
+    }
 }

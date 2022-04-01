@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
+import androidx.databinding.adapters.AdapterViewBindingAdapter;
 
 import com.example.xinsheng.R;
 import com.example.xinsheng.databinding.ActivityLoanPayBinding;
@@ -21,6 +22,9 @@ import com.xll.xinsheng.bean.BankType;
 import com.xll.xinsheng.bean.InitialData;
 import com.xll.xinsheng.bean.ItemType;
 import com.xll.xinsheng.bean.LoanPayResponse;
+import com.xll.xinsheng.bean.OrderDetailItem;
+import com.xll.xinsheng.bean.PaymentItem;
+import com.xll.xinsheng.bean.PendingDetailInfo;
 import com.xll.xinsheng.bean.Project;
 import com.xll.xinsheng.cache.Cache;
 import com.xll.xinsheng.model.LoanPayModel;
@@ -29,6 +33,8 @@ import com.xll.xinsheng.tools.HttpUtils;
 import com.xll.xinsheng.tools.OkHttpUtils;
 import com.xll.xinsheng.tools.Uri2PathUtil;
 import com.xll.xinsheng.tools.Utils;
+
+import org.w3c.dom.Text;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -47,16 +53,66 @@ public class LoanPayRequestActivity extends XinActivity {
     private String createUser;
     private ActivityLoanPayBinding binding;
     private static final String TAG = "LoanPayRequestActivity";
+    private static final String EDIT_NOW_NODE = "1";
 
     private String contractId;
     private int processPos = 0;
    private AttachmentItemAdapter adapter;
+    private String project_name;
+    private String fee_type;
+    private String process_type;
+    private String bank_id;
+    private String bx_desc;
+    private float bx_fee;
+    private String itemTypeName;
+    private String orderId;
+    private String now_node = "-1";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Utils.applyPermission(this);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_loan_pay);
+
+
+        Intent intent = getIntent();
+        String PendingDetailInfo = intent.getStringExtra("PendingDetailInfo");
+        if(!TextUtils.isEmpty(PendingDetailInfo)) {
+           PendingDetailInfo info = new Gson().fromJson(PendingDetailInfo, PendingDetailInfo.class);
+
+            orderId = info.getOrderId();
+            contractId = orderId;
+            final List<PaymentItem> paymentList = info.getPaymentList();
+            for(PaymentItem item : paymentList) {
+                Log.e(TAG, "PaymentItem" + item);
+                project_name = item.getProject_name();
+                itemTypeName = item.getItem_type_name();
+                fee_type = item.getFee_type();
+                process_type = item.getProcess_type();// TODO 开户行
+                bank_id = item.getBank_id();
+                bx_desc = item.getBx_desc();
+                bx_fee = item.getBx_fee();
+
+                now_node = item.getNow_node();
+
+                model.setRequestMoney(item.getFee() + "");
+                model.setBankName(item.getBank_userid());
+                model.setBankAccount(item.getBank_username());
+                model.setBankNetwork(item.getBank_attr());
+                model.setRequestReason(item.getSeal_desc());
+
+            }
+
+            final List<OrderDetailItem> detailList = info.getDetailList();
+            if(detailList!=null) {
+                for(OrderDetailItem item : detailList) {
+                    String bxFee = item.getBxFee();
+                    String bxUser = item.getBxUser();
+                   // item.getbx
+                }
+            }
+
+        }
 
         map.put("1", getString(R.string.loan_process));
         map.put("2", getString(R.string.pay_process));
@@ -81,10 +137,18 @@ public class LoanPayRequestActivity extends XinActivity {
                 projectList.addAll(data.getProjectList());
                 String[] projectArray = new String[projectList.size()];
                 int i = 0;
+                int select=0;
                 for (Project project : projectList) {
-                    projectArray[i++] = project.getProjectName();
+                    String name =  project.getProjectName();
+                    if (!TextUtils.isEmpty(name)) {
+                        if(name.equals(project_name)) {
+                            select = i;
+                        }
+                    }
+                    projectArray[i++] = name;
                 }
                 model.setProjectEntries(projectArray);
+                binding.requestProject.setCurrentPosition(select);//TODO 项目类型
             }
 
             //申请类型
@@ -94,9 +158,18 @@ public class LoanPayRequestActivity extends XinActivity {
                 String[] itemArray = new String[itemTypeList.size() + 1];
                 int i = 0;
                 itemArray[i++] = getString(R.string.select);
+                int itemSelect = 0;
                 for (ItemType itemType : itemTypeList) {
-                    itemArray[i++] = itemType.getTypeName();
+                    String name = itemType.getTypeName();
+                    if(!TextUtils.isEmpty(name)) {
+                        if(name.equals(itemTypeName)) {
+                            itemSelect = i;
+                        }
+                    }
+                    itemArray[i++] = name;
                 }
+                Log.i(TAG, "itemSelect:" + itemSelect);
+                binding.requestType.setCurrentPosition(itemSelect);//TODO
                 model.setRequestEntries(itemArray);
             }
 
@@ -105,26 +178,53 @@ public class LoanPayRequestActivity extends XinActivity {
                 final Set<Map.Entry<String, String>> entries = map.entrySet();
                 String[] processType = new String[map.size() + 1];
                 int i = 0;
+
                 processType[i] = getString(R.string.select);
+                int processSelect = 0;
                 Iterator<Map.Entry<String, String>> iterator = entries.iterator();
                 while (iterator.hasNext()) {
-                    processType[++i] = iterator.next().getValue();
+                    final Map.Entry<String, String> next = iterator.next();
+                    String key = next.getKey();
+                    Log.i(TAG, "key:" + key + " process_type:" + process_type);
+                    if (!TextUtils.isEmpty(key) && key.equals(process_type)) {
+                        processSelect = i;
+                    }
+                    processType[++i] = next.getValue();
                 }
+                if (EDIT_NOW_NODE.equals(now_node) ) {
+                    binding.processType.setClickable(false);
+                    binding.processType.setEnabled(false);
+                }
+                Log.i(TAG, "processSelect:" + processSelect +":processType:" + map +":process_type" + process_type);
+                binding.processType.setCurrentPosition(processSelect + 1);//TODO
                 model.setProcessEntries(processType);
             }
+            model.setTicketId(orderId);
 
 
             //银行类型
             final List<BankType> bankTypeList = data.getBankList();
+
             if (bankTypeList != null && bankTypeList.size() > 0) {
+                //Log.i(TAG, bankTypeList.toString());
                 String[] itemArray = new String[bankTypeList.size() + 1];
                 int i = 0;
                 itemArray[i++] = getString(R.string.select);
+                int bankSelect = 0;
                 for (BankType bankType : bankTypeList) {
+                    String bankId = bankType.getBank_id();
+                    if (!TextUtils.isEmpty(bankId) && bankId.equals(bank_id)) {
+                        bankSelect = i;
+                    }
                     itemArray[i++] = bankType.getBank_name();
                 }
                 model.setBankEntries(itemArray);
+                binding.bankType.setCurrentPosition(bankSelect);
             }
+
+
+//            model.setBankAccount();
+//            model.setBankNetwork();
 
             binding.setModel(model);
 
@@ -243,17 +343,18 @@ public class LoanPayRequestActivity extends XinActivity {
             });
 
         }
-        binding.processType.setOnSelectItemListener(new AdapterView.OnItemSelectedListener() {
+
+        binding.processType.setOnItemSelectListener(new AdapterViewBindingAdapter.OnItemSelected() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Log.i(TAG, "onItemSelected:" + position);
+                //编辑节点信息，不需要再次生成订单号
+                if(EDIT_NOW_NODE.equals(now_node)){
+                    return;
+                }
                 contractId = getContractId(position);
                 model.setTicketId(contractId);
                 processPos = position;
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
             }
         });
 
@@ -263,8 +364,6 @@ public class LoanPayRequestActivity extends XinActivity {
                 openFile();
             }
         });
-
-
         adapter = new AttachmentItemAdapter(LoanPayRequestActivity.this, new ArrayList<String>());
         binding.setAttachmentAdapter(adapter);
 

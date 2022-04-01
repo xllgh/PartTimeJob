@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.xinsheng.R;
 import com.example.xinsheng.databinding.ItemDoneProcessNewBinding;
 import com.xll.xinsheng.model.DoneProcess;
+import com.xll.xinsheng.tools.Utils;
 import com.xll.xinsheng.ui.ProcessDetailActivity;
 
 import java.util.List;
@@ -33,7 +34,7 @@ public class ProcessDonePageAdapter extends LoadMoreRecyclerAdapter<DoneProcess>
     private int random = new Random().nextInt(backgroundList.length - 1);
     private int total;
 
-    public ProcessDonePageAdapter(Context context, List<DoneProcess> list, int total) {
+    public ProcessDonePageAdapter( Context context, List<DoneProcess> list, int total) {
         super(list, context, total);
         this.context = context;
         this.processList = list;
@@ -64,6 +65,17 @@ public class ProcessDonePageAdapter extends LoadMoreRecyclerAdapter<DoneProcess>
 
             final int index = (random + position) % backgroundList.length;
             model.setImgRes(backgroundList[index]);
+            if(position == processList.size() - 1){
+                model.setBottomVisibility(true);
+                if (processList.size() == total) {
+                    model.setBottomText(this.context.getString(R.string.no_more_data));
+                } else {
+                    model.setBottomText(this.context.getString(R.string.loading));
+                }
+            } else {
+                model.setBottomVisibility(false);
+            }
+
             h.setListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -94,6 +106,15 @@ public class ProcessDonePageAdapter extends LoadMoreRecyclerAdapter<DoneProcess>
     @Override
     public int getItemCount() {
         return processList.size();
+    }
+
+    public int getTotal() {
+        return total;
+    }
+
+    @Override
+    public void setTotal(int total) {
+        this.total = total;
     }
 
 

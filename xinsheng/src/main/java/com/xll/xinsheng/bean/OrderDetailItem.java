@@ -160,4 +160,24 @@ public class OrderDetailItem  extends BaseObservable {
     public void setBxFee(String bxFee) {
         this.bxFee = bxFee;
     }
+
+    @Override
+    public String toString() {
+        return "OrderDetailItem{" +
+                "bxDx='" + bxDx + '\'' +
+                ", bxProject='" + bxProject + '\'' +
+                ", fee='" + fee + '\'' +
+                ", bxDate='" + bxDate + '\'' +
+                ", remark='" + remark + '\'' +
+                ", bxDxDesc='" + bxDxDesc + '\'' +
+                ", bxUser='" + bxUser + '\'' +
+                ", fpCount=" + fpCount +
+                ", bxXx='" + bxXx + '\'' +
+                ", bxId='" + bxId + '\'' +
+                ", id='" + id + '\'' +
+                ", bxXxDesc='" + bxXxDesc + '\'' +
+                ", bxFee='" + bxFee + '\'' +
+                ", invoiceType='" + invoiceType + '\'' +
+                '}';
+    }
 }

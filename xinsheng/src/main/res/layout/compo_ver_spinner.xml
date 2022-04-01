@@ -8,13 +8,13 @@
             name="title"
             type="String" />
 
+        <variable
+            name="itemSelected"
+            type="androidx.databinding.adapters.AdapterViewBindingAdapter.OnItemSelected" />
+
        <variable
            name="model"
            type="com.xll.xinsheng.model.CompoSpinnerMode" />
-
-        <variable
-            name="listener"
-            type="android.widget.AdapterView.OnItemSelectedListener" />
 
     </data>
 
@@ -31,7 +31,7 @@
             android:padding="@dimen/dimen_10"
             android:drawableStart="@drawable/star"
             android:gravity="center_vertical"
-            android:text="@{title}"
+            android:text="@{model.title}"
             android:textSize="@dimen/text_size_15" />
 
         <Spinner
@@ -39,6 +39,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:entries="@{model.entries}"
+            android:selectedItemPosition="@={model.curPosition}"
+            android:onItemSelected = "@{itemSelected}"
             android:gravity="start"
             android:padding="@dimen/dimen_10"
             android:textSize="@dimen/text_size_15" />

@@ -7,6 +7,31 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> <!-- 在sdcard中创建/删除文件的权限 -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
+
+    <!-- Push service 运行需要的权限 -->
+    <!--    <uses-permission android:name="android.permission.INTERNET" />-->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <!--    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />-->
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
+
+
+    <!-- Push service 运行的可选权限，android.permission.READ_PHONE_STATE 在小米上是必需 -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
+
+    <!-- 适配Android N系统必需的ContentProvider写权限声明，写权限包含应用包名-->
+    <uses-permission android:name="baidu.push.permission.WRITE_PUSHINFOPROVIDER.com.example.xinsheng" />
+    <permission
+        android:name="baidu.push.permission.WRITE_PUSHINFOPROVIDER.com.example.xinsheng"
+        android:protectionLevel="signature">
+    </permission>
+    <!-- Push service 运行需要的权限 END -->
+
+
+
+
     <application
         android:name="com.xll.xinsheng.tools.MyApplication"
         android:allowBackup="true"
@@ -29,6 +54,129 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths" />
         </provider>
+
+       <!-- <service
+            android:name="com.xll.xinsheng.tools.XinShengHmsMessageService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.huawei.push.action.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>-->
+
+
+        <!-- push必须的组件声明  START -->
+        <receiver android:name="com.xll.xinsheng.receiver.MyPushMessageReceiver">
+            <intent-filter>
+                <action android:name="com.baidu.android.pushservice.action.MESSAGE" />
+                <action android:name="com.baidu.android.pushservice.action.RECEIVE" />
+                <action android:name="com.baidu.android.pushservice.action.notification.CLICK" />
+
+                <!-- 使用华为代理功能必须声明,用于接收华为的透传 -->
+                <action android:name="com.huawei.android.push.intent.RECEIVE" />
+            </intent-filter>
+        </receiver>
+
+         <!--push必须的组件声明
+         用于接收系统消息以保证PushService正常运行-->
+        <receiver android:name="com.baidu.android.pushservice.PushServiceReceiver"
+            android:process=":bdservice_v1" >
+            <intent-filter>
+                <action android:name="com.baidu.android.pushservice.action.notification.SHOW" />
+                <!-- 以下六项为可选的action声明，可大大提高service存活率和消息到达速度 -->
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+                <action android:name="android.intent.action.MEDIA_MOUNTED" />
+                <action android:name="android.intent.action.USER_PRESENT" />
+                <action android:name="android.intent.action.ACTION_POWER_CONNECTED" />
+                <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED" />
+            </intent-filter>
+        </receiver>
+
+        <!-- Push服务接收客户端发送的各种请求-->
+        <receiver android:name="com.baidu.android.pushservice.RegistrationReceiver"
+            android:exported="false"
+            android:process=":bdservice_v1" >
+            <intent-filter>
+                <action android:name="com.baidu.android.pushservice.action.METHOD" />
+            </intent-filter>
+        </receiver>
+
+        <service android:name="com.baidu.android.pushservice.PushService"
+            android:exported="false"
+            android:persistent="true"
+            android:process=":bdservice_v1" >
+            <intent-filter >
+                <action android:name="com.baidu.android.pushservice.action.PUSH_SERVICE" />
+            </intent-filter>
+        </service>
+
+
+        <!-- 4.4版本新增的CommandService声明，提升小米和魅族手机上的实际推送到达率 -->
+        <service android:name="com.baidu.android.pushservice.CommandService"
+            android:exported="false" />
+
+        <!-- 适配Android N系统必需的ContentProvider声明，写权限包含应用包名-->
+        <provider
+            android:name="com.baidu.android.pushservice.PushInfoProvider"
+            android:authorities="com.example.xinsheng.bdpush"
+            android:writePermission="baidu.push.permission.WRITE_PUSHINFOPROVIDER.com.example.xinsheng"
+            android:protectionLevel = "signature"
+            android:exported="true"
+            android:process=":bdservice_v1" />
+
+        <!-- 可选声明, 提升push消息送达率 -->
+        <service
+            android:name="com.baidu.android.pushservice.job.PushJobService"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:persistent="true"
+            android:process=":bdservice_v1" />
+
+        <!-- 适配Android N系统必需的ContentProvider声明，写权限包含应用包名-->
+        <provider
+            android:name="com.baidu.android.pushservice.PushInfoProvider"
+            android:authorities="YourPackageName.bdpush"
+            android:writePermission="baidu.push.permission.WRITE_PUSHINFOPROVIDER.YourPackageName"
+            android:protectionLevel = "signature"
+            android:exported="true"
+            android:process=":bdservice_v1" />
+
+        <!-- 可选声明, 提升push消息送达率 -->
+        <service
+            android:name="com.baidu.android.pushservice.job.PushJobService"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:persistent="true"
+            android:process=":bdservice_v1"
+            />
+
+<!--
+
+         华为代理推送必需组件
+        <activity
+            android:name="com.baidu.android.pushservice.hwproxy.HwNotifyActivity"
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:theme="@android:style/Theme.NoDisplay">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data
+                    android:host="bdpush"
+                    android:path="/hwnotify"
+                    android:scheme="baidupush" />
+            </intent-filter>
+        </activity>
+
+         华为HMS接入声明service
+        <service
+            android:name="com.baidu.android.pushservice.HmsPushPatchMessageService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.huawei.push.action.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+         华为代理推送必需组件 END
+-->
+
 
         <activity android:name="com.xll.xinsheng.ui.PendingDealActivity" />
         <activity android:name="com.xll.xinsheng.ui.ProcessDetailActivity" />
@@ -53,10 +201,19 @@
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- 在百度开发者中心查询应用的API Key -->
+        <meta-data
+            android:name="api_key"
+            android:value="83Z1ujbnm87zl100eyNmU7Rn" />
+
+        <meta-data
+            android:name="push_kit_proxy_init_enabled"
+            android:value="true" />
+
     </application>
 
 </manifest>

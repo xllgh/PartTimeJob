@@ -18,7 +18,9 @@ import com.xll.xinsheng.bean.PendingDetailInfo;
 import com.xll.xinsheng.model.PendingDealModel;
 import com.xll.xinsheng.tools.HttpUtils;
 import com.xll.xinsheng.tools.Utils;
+import com.xll.xinsheng.ui.LoanPayRequestActivity;
 import com.xll.xinsheng.ui.PendingActivity;
+import com.xll.xinsheng.ui.ReimburseRequestActivity;
 
 import java.util.HashMap;
 import java.util.List;
@@ -49,6 +51,9 @@ public class PendingDealHandler {
     //驳回至上一级
     private static final int DISMISS_LAST_NODE = -1;
 
+    //删除订单
+    private static final int DELETE = -3;
+
     private void action(String orderId, Context context, PendingDealModel model, int action) {
         @Utils.ProcessType int type = Utils.getProcessType(orderId);
         switch (type) {
@@ -66,6 +71,35 @@ public class PendingDealHandler {
                 break;
         }
     }
+
+
+    public void onDeleteClick(Context context, PendingDealModel model) {
+        action(info.getOrderId(), context, model, DELETE);
+    }
+
+    public void onEditClick(Context context, PendingDealModel model) {
+        //TODO 编辑内容
+        @Utils.ProcessType int type = Utils.getProcessType(info.getOrderId());
+        switch (type) {
+            case REIMBURSEMENT:
+               Intent intent = new Intent(context, ReimburseRequestActivity.class);
+               intent.putExtra("PendingDetailInfo", new Gson().toJson(info));
+               context.startActivity(intent);
+                break;
+            case PAY_LOAN:
+                Intent plIntent = new Intent(context, LoanPayRequestActivity.class);
+                plIntent.putExtra("PendingDetailInfo", new Gson().toJson(info));
+                context.startActivity(plIntent);
+                break;
+            case TP:
+               // tp(context, action, info, model.getComment());
+                break;
+            case UNKNOWN:
+                Toast.makeText(context, R.string.unknown_process_type, Toast.LENGTH_LONG).show();
+                break;
+        }
+    }
+
 
     public void onPassClick(Context context, PendingDealModel model) {
         action(info.getOrderId(), context, model, PASS);

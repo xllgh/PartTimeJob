@@ -13,6 +13,8 @@ public class ReimburseRequestModel extends BaseObservable {
 
     private String uploadFileName;
 
+    private String ticketId;
+
 
 
     @Bindable
@@ -56,5 +58,15 @@ public class ReimburseRequestModel extends BaseObservable {
     public void setUploadFileName(String uploadFileName) {
         this.uploadFileName = uploadFileName;
         notifyPropertyChanged(BR.uploadFileName);
+    }
+
+    @Bindable
+    public String getTicketId() {
+        return ticketId;
+    }
+
+    public void setTicketId(String ticketId) {
+        this.ticketId = ticketId;
+        notifyPropertyChanged(BR.ticketId);
     }
 }

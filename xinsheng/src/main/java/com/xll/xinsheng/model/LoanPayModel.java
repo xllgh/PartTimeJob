@@ -34,6 +34,16 @@ public class LoanPayModel extends BaseObservable {
 
     private int processTypePos;
 
+    public int getProjectPos() {
+        return projectPos;
+    }
+
+    public void setProjectPos(int projectPos) {
+        this.projectPos = projectPos;
+    }
+
+    private int projectPos;
+
     public int getProcessTypePos() {
         return processTypePos;
     }

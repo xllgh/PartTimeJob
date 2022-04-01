@@ -18,6 +18,8 @@ public class CompoSpinnerMode extends BaseObservable {
 
     private int curPosition;
 
+    private String title;
+
     @Bindable
     public String[] getEntries() {
         return entries;
@@ -39,7 +41,12 @@ public class CompoSpinnerMode extends BaseObservable {
         notifyPropertyChanged(BR.curPosition);
     }
 
-    public int getPosition(Spinner spinner) {
-        return spinner.getSelectedItemPosition();
+    @Bindable
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 }

@@ -22,13 +22,17 @@ import com.xll.xinsheng.model.DoneProcess;
 import com.xll.xinsheng.model.SearchModel;
 import com.xll.xinsheng.tools.HttpUtils;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class DoneActivity extends XinActivity {
 
     private static final String TAG= "DoneActivity";
+    private boolean isLoading = false;
 
     private int page = 1;
     ActivityDoneBinding binding;
@@ -48,6 +52,7 @@ public class DoneActivity extends XinActivity {
         if (intent != null) {
             ArrayList<DoneProcess> doneList = intent.getParcelableArrayListExtra("doneData");
             total = intent.getIntExtra("total", 0);
+            Log.i(TAG, "total:" + total);
            // adapter = new ProcessDoneAdapter(this, doneList, total);
             donePageAdapter = new ProcessDonePageAdapter(this, doneList, total);
             binding.setAdapter(donePageAdapter);
@@ -75,13 +80,20 @@ public class DoneActivity extends XinActivity {
                binding.eName.setText("");
             }
         });
+
     }
+
+
+    private final Timer timer = new Timer();
+
 
 
     LoadMoreRecyclerAdapter.EndlessRecyclerOnScrollListener onScrollListener = new LoadMoreRecyclerAdapter.EndlessRecyclerOnScrollListener(total) {
         @Override
         public void onLoadMore() {
-            getDoneInfo(donePageAdapter, false, model, ++page);
+            if (!isLoading){
+                getDoneInfo(donePageAdapter, false, model, ++page);
+            }
         }
     };
 
@@ -111,7 +123,13 @@ public class DoneActivity extends XinActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void getDoneInfo(@NonNull final ProcessDonePageAdapter adapter,  final boolean isSearch, SearchModel model, int page) {
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        timer.cancel();
+    }
+
+    private void getDoneInfo(@NonNull final ProcessDonePageAdapter adapter, final boolean isSearch, SearchModel model, int page) {
         HashMap<String, String> map = new HashMap<>();
         map.put("listName1", model.getOrderId());
         map.put("listName2", model.getName());
@@ -119,6 +137,16 @@ public class DoneActivity extends XinActivity {
         map.put("listName4", model.getContent());
         map.put("pageNumber", String.valueOf(page));
         map.put("pageSize", "10");
+        isLoading = true;
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                isLoading = false;
+                Log.i(TAG, "isLoading" + isLoading);
+            }
+        };
+
+        timer.schedule(task, 3000);
 
         HttpUtils.post(HttpUtils.DONE_ORDER, map, new HttpUtils.XinResponseListener() {
             @Override
@@ -147,6 +175,7 @@ public class DoneActivity extends XinActivity {
                         adapter.resetUpdate(list);
                     }
                 }
+             isLoading = false;
             }
         });
     }

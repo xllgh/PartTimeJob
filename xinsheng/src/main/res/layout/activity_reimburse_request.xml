@@ -96,6 +96,14 @@
                 android:entries="@{model.projectEntries}"
                 app:title="@string/reimbursement_project" />
 
+            <com.xll.xinsheng.myview.CompoVerTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:textName="@string/request_ticket_id"
+                android:layout_marginTop="@dimen/dimen_10"
+                app:textValue="@{model.ticketId}"
+                />
+
             <com.xll.xinsheng.myview.CompoVerEditView
                 android:id="@+id/reimburse_reason"
                 android:layout_width="match_parent"

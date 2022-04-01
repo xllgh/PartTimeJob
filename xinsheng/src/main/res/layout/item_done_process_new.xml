@@ -16,6 +16,8 @@
             name="listener"
             type="android.view.View.OnClickListener" />
 
+        <import type="android.view.View"/>
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -94,6 +96,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_20"
             android:ellipsize="marquee"
+            android:id="@+id/process_type"
             android:gravity="start"
             android:marqueeRepeatLimit="marquee_forever"
             android:singleLine="true"
@@ -101,6 +104,22 @@
             android:textSize="@dimen/text_size12"
             app:layout_constraintStart_toEndOf="@id/order_creator"
             app:layout_constraintTop_toBottomOf="@id/order_name"
+            app:layout_constraintWidth_percent="0.7"
+            app:setSelected="@{processMode.selected}" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_20"
+            android:ellipsize="marquee"
+            android:gravity="start"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:singleLine="true"
+            android:text="@{processMode.bottomText}"
+            android:visibility="@{processMode.bottomVisibility?View.VISIBLE:View.GONE}"
+            android:textSize="@dimen/text_size12"
+            app:layout_constraintStart_toEndOf="@id/order_creator"
+            app:layout_constraintTop_toBottomOf="@id/process_type"
             app:layout_constraintWidth_percent="0.7"
             app:setSelected="@{processMode.selected}" />
 

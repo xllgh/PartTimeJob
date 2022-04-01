@@ -33,17 +33,19 @@
             android:paddingEnd="@dimen/dimen_10"
             android:orientation="vertical">
 
-            <com.xll.xinsheng.myview.CompoSpinner
+            <com.xll.xinsheng.myview.CompoVerSpinner
                 android:id="@+id/reimburse_fee_type"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:orientationLayout="Horizontal"
                 app:entries="@{model.itemTypeName}"
                 app:title="@string/fee_type" />
 
-            <com.xll.xinsheng.myview.CompoSpinner
+            <com.xll.xinsheng.myview.CompoVerSpinner
                 android:id="@+id/invoice_subject"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:orientationLayout="Horizontal"
                 app:entries="@{model.invoiceTypeName}"
                 app:title="@string/invoice_subject" />
 

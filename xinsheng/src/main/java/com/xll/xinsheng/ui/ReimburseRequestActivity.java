@@ -1,7 +1,9 @@
 package com.xll.xinsheng.ui;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
+import androidx.databinding.adapters.AdapterViewBindingAdapter;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -19,9 +21,14 @@ import com.google.gson.Gson;
 import com.xll.xinsheng.adapter.AttachmentItemAdapter;
 import com.xll.xinsheng.adapter.ReimburseDetailAdapter;
 import com.xll.xinsheng.adapter.ReimburseFeeDetailAdapter;
+import com.xll.xinsheng.bean.FileInfo;
 import com.xll.xinsheng.bean.InitialData;
 import com.xll.xinsheng.bean.InvoiceType;
 import com.xll.xinsheng.bean.ItemType;
+import com.xll.xinsheng.bean.OrderDetailItem;
+import com.xll.xinsheng.bean.OrderItem;
+import com.xll.xinsheng.bean.PaymentItem;
+import com.xll.xinsheng.bean.PendingDetailInfo;
 import com.xll.xinsheng.bean.Project;
 import com.xll.xinsheng.bean.ReimburseResponse;
 import com.xll.xinsheng.bean.UserInfo;
@@ -40,7 +47,6 @@ import java.util.List;
 
 public class ReimburseRequestActivity extends XinActivity {
 
-    List<ItemReimburseFee> itemReimburseFeeList = new ArrayList<>();
     private String projectListId;
     private String projectId;
     private static String TAG = "ReimburseRequestActivity";
@@ -49,6 +55,9 @@ public class ReimburseRequestActivity extends XinActivity {
 
     private final List<String> fileList = new ArrayList<>();
     private AttachmentItemAdapter attachmentItemAdapter;
+    List<ItemReimburseFee> itemReimburseFeeList = new ArrayList<>();
+    private InitialData data;
+    private ReimburseFeeDetailAdapter adapter ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,12 +68,13 @@ public class ReimburseRequestActivity extends XinActivity {
         selectFile(binding);
         Utils.applyPermission(ReimburseRequestActivity.this);
 
-
         Cache cache = new Cache(this, Cache.INITIAL_DATA);
-        final InitialData data = cache.getInitialData();
-        projectId = Utils.getProjectId();
+        if (cache == null){
+            return;
+        }
+        data = cache.getInitialData();
         final List<Project> projectList = data.getProjectList();
-        if (projectList != null && projectList.size()>0) {
+        if (projectList != null && projectList.size() > 0) {
             String[] projectArray = new String[projectList.size()];
             int i = 0;
             for (Project project : projectList) {
@@ -74,7 +84,7 @@ public class ReimburseRequestActivity extends XinActivity {
         }
         itemReimburseFeeList.add(createReimburseFee(data));
 
-        final ReimburseFeeDetailAdapter adapter = new ReimburseFeeDetailAdapter(this, itemReimburseFeeList);
+        adapter = new ReimburseFeeDetailAdapter(this, itemReimburseFeeList);
         binding.setAdapter(adapter);
         binding.setAddListener(new View.OnClickListener() {
             @Override
@@ -84,24 +94,17 @@ public class ReimburseRequestActivity extends XinActivity {
         });
 
         binding.setModel(model);
-        binding.projectType.setOnSelectItemListener(new AdapterView.OnItemSelectedListener() {
+        binding.projectType.setOnItemSelectListener(new AdapterViewBindingAdapter.OnItemSelected() {
             @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if (i < projectList.size()) {
-                    projectListId = projectList.get(i).getProjectId();
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position < projectList.size()) {
+                    projectListId = projectList.get(position).getProjectId();
                     initInvoiceType(data, projectListId, adapter);
                 } else {
                     projectListId = null;
                     projectId = null;
                 }
                 adapter.setProjectId(projectListId);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-                projectListId = null;
-                projectId = null;
-                adapter.setProjectId(null);
             }
         });
         submitRequest(binding, data, adapter);
@@ -111,6 +114,52 @@ public class ReimburseRequestActivity extends XinActivity {
                 ReimburseRequestActivity.this.finish();
             }
         });
+        initData(binding, projectList);
+    }
+
+    private void initData(ActivityReimburseRequestBinding binding, List<Project> projectList) {
+        Intent intent = getIntent();
+        String PendingDetailInfo = intent.getStringExtra("PendingDetailInfo");
+        if (!TextUtils.isEmpty(PendingDetailInfo)) {
+            PendingDetailInfo info = new Gson().fromJson(PendingDetailInfo, PendingDetailInfo.class);
+            model.setTicketId(info.getOrderId());
+            List<PaymentItem> paymentList = info.getPaymentList();
+            for (PaymentItem item : paymentList) {
+                model.setReimburseReason(item.getBx_desc());
+                String projectName = item.getProject_name();
+                if (!TextUtils.isEmpty(projectName)) {
+                    for (int i = 0; i < projectList.size(); i++) {
+                        Project project = projectList.get(i);
+                        if (projectName.equals(project.getProjectName())) {
+                            binding.projectType.setCurrentPosition(i);
+                            break;
+                        }
+                    }
+                }
+                break;
+            }
+
+            //附件
+            List<FileInfo> fileList = info.getFileList();
+            if (fileList != null) {
+                for (FileInfo fileInfo : fileList) {
+                    attachmentItemAdapter.addAttachmentItem(fileInfo.getFileName());
+                }
+            }
+            //费用明细
+            List<OrderDetailItem> detailList = info.getDetailList();
+            itemReimburseFeeList.clear();
+            if (detailList != null) {
+                for (OrderDetailItem item : detailList) {
+                    itemReimburseFeeList.add(createReimburseFee(data, item));
+                }
+                adapter.appendItems(itemReimburseFeeList, invoiceTypeMap);
+            }
+
+        } else {
+            projectId = Utils.getProjectId();
+            model.setTicketId(projectId);
+        }
     }
 
     @Override
@@ -126,7 +175,7 @@ public class ReimburseRequestActivity extends XinActivity {
                 } else {
                     Toast.makeText(ReimburseRequestActivity.this, R.string.file_hint, Toast.LENGTH_LONG).show();
                 }
-                Log.e(TAG, filePath);
+                //Log.e(TAG, filePath);
                 attachmentItemAdapter.addAttachmentItem(filePath);
                 uploadFile(filePath);
             } else {
@@ -187,7 +236,40 @@ public class ReimburseRequestActivity extends XinActivity {
 
     }
 
-    private ItemReimburseFee createReimburseFee(InitialData data) {
+
+    private ItemReimburseFee createReimburseFee(@NonNull InitialData data, @NonNull OrderDetailItem item) {
+        ItemReimburseFee fee0 = new ItemReimburseFee();
+        if (data.getItemTypeList() != null) {
+            final List<ItemType> itemTypeList = new ArrayList<>(data.getItemTypeList());
+            String[] itemArray = new String[itemTypeList.size() + 1];
+            int i = 0;
+            int selected = 0;
+
+            String dx = item.getBxDx();
+
+            itemArray[0] = getString(R.string.select);
+            for (ItemType itemType : itemTypeList) {
+                i = i + 1;
+                String typeId = itemType.getTypeId();
+                if (!TextUtils.isEmpty(typeId) && typeId.equals(dx)) {
+                    selected = i;
+                }
+                itemArray[i] = itemType.getTypeName();
+            }
+            fee0.setItemTypeName(itemArray);
+            fee0.setFeeTypeList(data.getItemTypeList());
+            fee0.setInvoiceTypeMap(invoiceTypeMap);
+            fee0.setReimburseLimitFee(item.getFee());
+            fee0.setItemTypePos(selected);
+            fee0.setReimburseFee(item.getBxFee());
+            fee0.setFpCount(item.getFpCount() + "");
+            fee0.setRemarks(item.getRemark());
+            fee0.setReimburseDate(item.getBxDate());
+        }
+        return fee0;
+    }
+
+    private ItemReimburseFee createReimburseFee(@NonNull InitialData data) {
         ItemReimburseFee fee0 = new ItemReimburseFee();
         if (data.getItemTypeList() != null) {
             final List<ItemType> itemTypeList = new ArrayList<>(data.getItemTypeList());
@@ -236,7 +318,7 @@ public class ReimburseRequestActivity extends XinActivity {
                     Gson gson = new Gson();
                     InvoiceType invoiceType = gson.fromJson(response, InvoiceType.class);
                     invoiceTypeMap.put(requestMap.get("id"), invoiceType.getInvoiceItems());
-                    Log.e(TAG, "invoiceType:" + invoiceType + "---requestMap:" + requestMap);
+                    //Log.e(TAG, "invoiceType:" + invoiceType + "---requestMap:" + requestMap);
                     if (adapter != null) {
                         adapter.updateInvoiceType(invoiceTypeMap);
                     }
@@ -277,7 +359,7 @@ public class ReimburseRequestActivity extends XinActivity {
                     return;
                 }
 
-                Log.e(TAG, "submit:" + itemReimburseFeeList.toString());
+                //Log.e(TAG, "submit:" + itemReimburseFeeList.toString());
 
                 for (int i = 0; i < itemReimburseFeeList.size(); i++) {
                     index = i + 1;
@@ -285,7 +367,7 @@ public class ReimburseRequestActivity extends XinActivity {
                     int itemPos = itemReimburseFee.getItemTypePos();
                     int invoicePos = itemReimburseFee.getInvoiceTypePos();
                     final List<ItemType> itemTypeList = data.getItemTypeList();
-                    Log.e(TAG, "itemPos:" + itemPos + ":" + itemTypeList.toString());
+                    //Log.e(TAG, "itemPos:" + itemPos + ":" + itemTypeList.toString());
 
                     if (itemReimburseFee.getFeeTypeList() != null && itemTypeList.size() > itemPos && itemPos >= 0) {
                         ItemType itemType = itemTypeList.get(itemPos);
@@ -297,7 +379,7 @@ public class ReimburseRequestActivity extends XinActivity {
                         requestParam.put("kmxx" + index, invoiceItem.getItemId());
                         requestParam.put("bxed" + index, invoiceItem.getFees());
                     }
-                    Log.e(TAG, "invoicePos:" + invoicePos + ":" + (invoiceItemList != null ? invoiceItemList.toString() : null));
+                    //Log.e(TAG, "invoicePos:" + invoicePos + ":" + (invoiceItemList != null ? invoiceItemList.toString() : null));
 
 
                     totalFee += Utils.parseToFloat(itemReimburseFee.getReimburseFee());
@@ -335,7 +417,7 @@ public class ReimburseRequestActivity extends XinActivity {
 
                     @Override
                     public void onResponse(String response) {
-                        Log.i(TAG, "REIMBURSE:" + response);
+                        //Log.i(TAG, "REIMBURSE:" + response);
                         Gson gson = new Gson();
                         ReimburseResponse reimburseResponse = gson.fromJson(response, ReimburseResponse.class);
                         boolean success = reimburseResponse.isSuccess();

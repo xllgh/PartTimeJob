@@ -39,7 +39,7 @@ public class ProcessDetailActivity extends XinActivity {
         HashMap<String, String> param = new HashMap<>();
         param.put("id", id);
         param.put("isGetData", "yes");
-        HttpUtils.post(HttpUtils.ORDER_EDITE, param, new HttpUtils.XinResponseListener() {
+        HttpUtils.post(HttpUtils.ORDER_EDIT, param, new HttpUtils.XinResponseListener() {
             @Override
             public void onResponse(String response) {
                 Gson gson = new Gson();

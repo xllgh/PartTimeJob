@@ -303,4 +303,40 @@ public class PaymentItem extends BaseObservable {
     public void setLoan_id(String loan_id) {
         this.loan_id = loan_id;
     }
+
+    @Override
+    public String toString() {
+        return "PaymentItem{" +
+                "loan_fee='" + loan_fee + '\'' +
+                ", remark='" + remark + '\'' +
+                ", bx_desc='" + bx_desc + '\'' +
+                ", all_fee=" + all_fee +
+                ", user_dept='" + user_dept + '\'' +
+                ", project_name='" + project_name + '\'' +
+                ", fee_dept='" + fee_dept + '\'' +
+                ", user_id='" + user_id + '\'' +
+                ", project_id='" + project_id + '\'' +
+                ", org_id='" + org_id + '\'' +
+                ", bx_id='" + bx_id + '\'' +
+                ", name='" + name + '\'' +
+                ", create_date='" + create_date + '\'' +
+                ", org_name='" + org_name + '\'' +
+                ", status='" + status + '\'' +
+                ", now_node='" + now_node + '\'' +
+                ", username='" + username + '\'' +
+                ", bx_fee=" + bx_fee +
+                ", loan_id='" + loan_id + '\'' +
+                ", bank_username='" + bank_username + '\'' +
+                ", item_type_name='" + item_type_name + '\'' +
+                ", bank_attr='" + bank_attr + '\'' +
+                ", fee=" + fee +
+                ", bank_userid='" + bank_userid + '\'' +
+                ", fee_type='" + fee_type + '\'' +
+                ", seal_desc='" + seal_desc + '\'' +
+                ", bank_id='" + bank_id + '\'' +
+                ", process_type='" + process_type + '\'' +
+                ", project_type_name='" + project_type_name + '\'' +
+                ", orderId='" + orderId + '\'' +
+                '}';
+    }
 }

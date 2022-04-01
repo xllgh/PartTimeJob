@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
+import androidx.databinding.adapters.AdapterViewBindingAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.xinsheng.R;
@@ -96,7 +97,7 @@ public class ReimburseFeeDetailAdapter extends RecyclerView.Adapter<ReimburseFee
         });
     }
 
-    private void setSelectListener(final int position, final ItemReimburseFeeBinding binding, final ItemReimburseFee model) {
+    private void setSelectListener(final int position, final ItemReimburseFeeBinding binding,@NonNull final ItemReimburseFee model) {
         Log.i(TAG, "setSelectListener");
         binding.requestFee.setOnEditChangeListener(new CompoEditView.OnEditChangeListener() {
             @Override
@@ -119,28 +120,26 @@ public class ReimburseFeeDetailAdapter extends RecyclerView.Adapter<ReimburseFee
             }
         });
 
-
-
-        binding.reimburseFeeType.setOnSelectItemListener(new AdapterView.OnItemSelectedListener() {
+        binding.reimburseFeeType.setOnItemSelectListener(new AdapterViewBindingAdapter.OnItemSelected() {
             @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                Log.i(TAG, "setSelectListener:" + " position:" + position + " i:" + i);
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Log.i(TAG, "setSelectListener:" + " position:" + position + " i:" + position);
                 if (TextUtils.isEmpty(projectId)) {
                     Toast.makeText(context, R.string.project_select_hint, Toast.LENGTH_LONG).show();
                     return;
                 }
                 ItemReimburseFee fee = itemReimburseFees.get(position);
-                int itemTypePos = i - 1;
+                int itemTypePos = position - 1;
                 if (fee != null && fee.getFeeTypeList().size() > itemTypePos && itemTypePos >= 0) {
-                    fee.setItemTypePos(i);
+                    fee.setItemTypePos(position);
                     //或者当前选择的费用类型
                     ItemType itemType = fee.getFeeTypeList().get(itemTypePos);
                     model.setItemTypePos(itemTypePos);
 
                     //获取当前支持的发票类型 TODO
                     HashMap<String, List<InvoiceType.InvoiceItem>> invoiceTypeMap = fee.getInvoiceTypeMap();
-                    Log.e(TAG, "feeType:" + itemType.toString());
-                    Log.e(TAG, "invoiceMap:" + invoiceTypeMap.toString());
+                    //Log.e(TAG, "feeType:" + itemType.toString());
+                    //Log.e(TAG, "invoiceMap:" + invoiceTypeMap.toString());
                     List<InvoiceType.InvoiceItem> invoiceItemList = fee.getInvoiceTypeMap().get(itemType.getTypeId());
 
                     //设置发票科目列表
@@ -156,41 +155,40 @@ public class ReimburseFeeDetailAdapter extends RecyclerView.Adapter<ReimburseFee
                     }
                 }
             }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-                Log.i(TAG, "onNothingSelected");
-
-            }
         });
 
-        binding.invoiceSubject.setOnSelectItemListener(new AdapterView.OnItemSelectedListener() {
+
+        binding.invoiceSubject.setOnItemSelectListener(new AdapterViewBindingAdapter.OnItemSelected() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 List<InvoiceType.InvoiceItem> invoiceItemList = model.getInvoiceItemList();
                 InvoiceType.InvoiceItem invoiceItem = invoiceItemList.get(position);
-                Log.i(TAG, invoiceItem.toString());
+                //Log.i(TAG, invoiceItem.toString());
                 model.setReimburseLimitFee(invoiceItem.getFees());
                 model.setInvoiceTypePos(position);
             }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
         });
+//
+//        binding.reimburseFeeType.setCurrentPosition(model.getItemTypePos());
+//        binding.invoiceSubject.setCurrentPosition(model.getInvoiceTypePos());
+
     }
 
 
     public void deleteItem(ItemReimburseFee fee) {
         itemReimburseFees.remove(fee);
-        Log.e(TAG, "deleteItem:" + fee.toString());
+        //Log.e(TAG, "deleteItem:" + fee.toString());
         notifyDataSetChanged();
     }
 
     public void appendItem(ItemReimburseFee itemReimburseFee, HashMap<String, List<InvoiceType.InvoiceItem>> invoiceTypeMap) {
         itemReimburseFees.add(itemReimburseFee);
         notifyItemRangeInserted(itemReimburseFees.size(), 1);
+    }
+
+    public void appendItems(List<ItemReimburseFee> items, HashMap<String, List<InvoiceType.InvoiceItem>> invoiceTypeMap) {
+        itemReimburseFees.addAll(items);
+        notifyItemRangeInserted(itemReimburseFees.size(), items.size());
     }
 
     public void updateInvoiceType(HashMap<String, List<InvoiceType.InvoiceItem>> invoiceTypeMap) {

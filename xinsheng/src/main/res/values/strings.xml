@@ -154,9 +154,10 @@
     <string name="search_order_name">搜索名称</string>
     <string name="search_initiator">工单发起人</string>
     <string name="search_content">工单内容</string>
-    <string name="loading">加载中。。。</string>
+    <string name="loading">请稍等，加载中。。。</string>
     <string name="request_project">申请项目</string>
     <string name="reimbursement_project">报销项目</string>
+    <string name="request_ticket_id">申请单号</string>
     <string name="bank_type">开户行</string>
     <string name="bank_name">户名</string>
     <string name="bank_account">账号</string>

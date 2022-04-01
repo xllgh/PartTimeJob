@@ -20,6 +20,10 @@ public class DoneProcess extends BaseObservable implements Parcelable {
 
     private String orderStatus;
 
+    private boolean bottomVisibility = false;
+
+    private String bottomText;
+
     private boolean selected = true;
 
     private int imgRes;
@@ -142,4 +146,19 @@ public class DoneProcess extends BaseObservable implements Parcelable {
     }
 
 
+    public String getBottomText() {
+        return bottomText;
+    }
+
+    public void setBottomText(String bottomText) {
+        this.bottomText = bottomText;
+    }
+
+    public boolean isBottomVisibility() {
+        return bottomVisibility;
+    }
+
+    public void setBottomVisibility(boolean bottomVisibility) {
+        this.bottomVisibility = bottomVisibility;
+    }
 }

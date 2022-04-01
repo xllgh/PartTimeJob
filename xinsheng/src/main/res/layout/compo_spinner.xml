@@ -4,17 +4,13 @@
 
     <data>
 
-        <variable
-            name="title"
-            type="String" />
-
        <variable
            name="model"
            type="com.xll.xinsheng.model.CompoSpinnerMode" />
 
         <variable
-            name="listener"
-            type="android.widget.AdapterView.OnItemSelectedListener" />
+            name="itemSelected"
+            type="androidx.databinding.adapters.AdapterViewBindingAdapter.OnItemSelected" />
 
     </data>
 
@@ -27,7 +23,7 @@
             android:id="@+id/hint_order_code"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@{title}"
+            android:text="@{model.title}"
             android:textColor="@color/blue_light"
             android:textSize="@dimen/text_size_15"
             app:layout_constraintStart_toStartOf="parent"

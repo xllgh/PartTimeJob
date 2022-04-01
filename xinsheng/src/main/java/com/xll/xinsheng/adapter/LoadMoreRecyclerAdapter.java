@@ -1,6 +1,7 @@
 package com.xll.xinsheng.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -22,6 +23,7 @@ public abstract class LoadMoreRecyclerAdapter<T> extends RecyclerView.Adapter {
     protected static final int TYPE_HINT = 0;
     private Context context;
     private int total;
+    private static final String TAG = "LoadMoreRecyclerAdapter";
 
     private List<T> list = new  ArrayList();
 
@@ -109,17 +111,25 @@ public abstract class LoadMoreRecyclerAdapter<T> extends RecyclerView.Adapter {
 
         @Override
         public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+            Log.i(TAG, "onScrollStateChanged");
+
             super.onScrollStateChanged(recyclerView, newState);
             LinearLayoutManager manager = (LinearLayoutManager) recyclerView.getLayoutManager();
             // 当不滑动时
-            if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+            if (manager != null && newState == RecyclerView.SCROLL_STATE_IDLE) {
                 //获取最后一个完全显示的itemPosition
-                int lastItemPosition = manager.findLastCompletelyVisibleItemPosition();
+                int lastItemPosition = manager.findLastVisibleItemPosition();
+                //int lastItemPosition = manager.findLastCompletelyVisibleItemPosition();
                 int itemCount = manager.getItemCount();
 
+                Log.i(TAG, lastItemPosition + "-" + itemCount + "-" + isSlidingUpward + "-total:" + total);
+
+
+
                 // 判断是否滑动到了最后一个item，并且是向上滑动
-                if (lastItemPosition == (itemCount - 1) && isSlidingUpward && itemCount != total) {
+                if (lastItemPosition == (itemCount - 1) && (itemCount < total || total == 0)) {
                     //加载更多
+                    Log.i(TAG, "onLoadMore");
                     onLoadMore();
                 }
             }

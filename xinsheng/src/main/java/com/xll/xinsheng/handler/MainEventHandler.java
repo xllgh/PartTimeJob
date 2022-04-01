@@ -54,8 +54,9 @@ public class MainEventHandler {
                 int id = item.getItemId();
                 if (id == Menu.FIRST) {
                     final Context context = MyApplication.getMyApplication();
-                    Cache<Session> cache = new Cache<>(context, Cache.LOGIN_INFO);
-                    cache.clearCache(Cache.LOGIN_INFO);
+                    new Cache<>(context, Cache.LOGIN_INFO).clearCache(Cache.LOGIN_INFO);
+                    new Cache<InitialData>(context, Cache.INITIAL_DATA).clearCache(Cache.INITIAL_DATA);
+                    new Cache<>(context,Cache.GENERAL_INFO).clearCache(Cache.GENERAL_INFO);
                     context.startActivity(new Intent(context, LoginActivity.class));
 
                 }

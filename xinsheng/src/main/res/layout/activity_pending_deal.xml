@@ -13,6 +13,10 @@
             name="model"
             type="com.xll.xinsheng.model.PendingDealModel" />
 
+        <variable
+            name="isInitiator"
+            type="Boolean" />
+
     </data>
 
     <RelativeLayout
@@ -66,5 +70,34 @@
         android:onClick="@{() -> handler.onDismissInitiator(context, model)}"
         android:layout_alignParentBottom="true"
         />
+
+
+        <LinearLayout android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:visibility="@{!isInitiator ? android.view.View.GONE : android.view.View.VISIBLE}"
+
+            >
+            <Button
+                android:layout_width="match_parent"
+                android:background="@drawable/selector_submit"
+                android:text="@string/delete"
+                android:layout_weight="0.5"
+                android:textColor="@android:color/white"
+                android:onClick="@{() -> handler.onDeleteClick(context,model)}"
+                android:layout_height="wrap_content"/>
+
+            <Button
+                android:layout_width="match_parent"
+                android:background="@drawable/selector_submit"
+                android:text="@string/edit"
+                android:layout_weight="0.5"
+                android:textColor="@android:color/white"
+                android:onClick="@{() -> handler.onEditClick(context,model)}"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+
     </RelativeLayout>
 </layout>

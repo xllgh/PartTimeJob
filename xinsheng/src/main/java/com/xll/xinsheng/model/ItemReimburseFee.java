@@ -156,8 +156,8 @@ public class ItemReimburseFee extends BaseObservable {
                 ", reimburseDate='" + reimburseDate + '\'' +
                 ", feeTypeList=" + feeTypeList +
                 ", invoiceItemList=" + invoiceItemList +
-                ", itemTypeName=" + Arrays.toString(itemTypeName) +
-                ", invoiceTypeName=" + Arrays.toString(invoiceTypeName) +
+               // ", itemTypeName=" + Arrays.toString(itemTypeName) +
+                //", invoiceTypeName=" + Arrays.toString(invoiceTypeName) +
                 ", invoiceTypePos=" + invoiceTypePos +
                 ", itemTypePos=" + itemTypePos +
                 ", fpCount='" + fpCount + '\'' +

@@ -6,11 +6,12 @@ import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.widget.AdapterView;
 
-import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.databinding.DataBindingUtil;
+import androidx.databinding.adapters.AdapterViewBindingAdapter.OnItemSelected;
+
+
 
 import com.example.xinsheng.R;
 import com.example.xinsheng.databinding.CompoSpinnerBinding;
@@ -20,18 +21,17 @@ public class CompoSpinner extends ConstraintLayout {
 
     private static final String TAG = "CompoSpinner";
     private CompoSpinnerBinding binding;
-    private Context context;
+    private CompoSpinnerMode mode;
+    private String[] arrays;
 
     public CompoSpinner(Context context) {
         super(context);
-        this.context = context;
         initView(context);
 
     }
 
     public CompoSpinner(Context context, AttributeSet attrs) {
         super(context, attrs);
-        this.context = context;
         initView(context);
         initAttr(context, attrs);
 
@@ -40,41 +40,46 @@ public class CompoSpinner extends ConstraintLayout {
     public CompoSpinner(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         initView(context);
-        this.context = context;
         initAttr(context, attrs);
 
     }
 
     public int getCurrentPosition() {
-        if (mode != null && binding !=null) {
-           return binding.spinner.getSelectedItemPosition();
-           // return mode.getCurPosition();
+        if (mode != null && binding != null) {
+            return binding.spinner.getSelectedItemPosition();
         }
         return 0;
     }
 
-    public void setOnSelectItemListener(@NonNull AdapterView.OnItemSelectedListener listener) {
-        if (binding == null) {
-            initView(context);
-            Log.e(TAG, "binding is null");
+    public int setCurrentPosition(int position) {
+        if (position < 0 )
+            return -1;
+        if (mode != null && binding != null ) {
+            Log.e(TAG, "setCurrentPosition:" + position );
+            mode.setCurPosition(0);
+            return position;
         }
-        binding.spinner.setOnItemSelectedListener(listener);
+        return -1;
+    }
+
+    public void setOnItemSelectListener(OnItemSelected selectListener) {
+        if (binding != null) {
+            binding.setItemSelected(selectListener);
+        }
     }
 
 
     private void initView(Context context) {
         binding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.compo_spinner, this, true);
+        mode = new CompoSpinnerMode();
+        binding.setModel(mode);
     }
 
-    CompoSpinnerMode mode;
-
-    String[] arrays;
 
     public void setEntries(String[] entries) {
         this.arrays = entries;
         if (arrays != null) {
             mode.setEntries(arrays);
-            binding.setModel(mode);
         }
     }
 
@@ -82,14 +87,8 @@ public class CompoSpinner extends ConstraintLayout {
     private void initAttr(Context context, AttributeSet set) {
         TypedArray array = context.obtainStyledAttributes(set, R.styleable.CompoSpinner);
         String key = array.getString(R.styleable.CompoSpinner_title);
-        setText(key);
-        mode = new CompoSpinnerMode();
         array.recycle();
     }
 
-    private void setText(String text) {
-        if (binding != null && !TextUtils.isEmpty(text)) {
-            binding.setTitle(text);
-        }
-    }
+
 }

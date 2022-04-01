@@ -4,13 +4,11 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.widget.AdapterView;
 
-import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.databinding.DataBindingUtil;
+import androidx.databinding.adapters.AdapterViewBindingAdapter.OnItemSelected;
 
 import com.example.xinsheng.R;
 import com.example.xinsheng.databinding.CompoSpinnerBinding;
@@ -20,62 +18,88 @@ import com.xll.xinsheng.model.CompoSpinnerMode;
 public class CompoVerSpinner extends ConstraintLayout {
 
     private static final String TAG = "CompoVerSpinner";
-    private CompoVerSpinnerBinding binding;
-    private Context context;
+
+    private static final int Vertical = 0;
+    private static final int Horizontal = 1;
+    private CompoVerSpinnerBinding verticalBinding;
+    private CompoSpinnerBinding horizontalBinding;
+    private final CompoSpinnerMode mode = new CompoSpinnerMode();;
+    private String[] arrays;
+    private int orientation;
 
     public CompoVerSpinner(Context context) {
         super(context);
-        this.context = context;
         initView(context);
 
     }
 
     public CompoVerSpinner(Context context, AttributeSet attrs) {
         super(context, attrs);
-        this.context = context;
-        initView(context);
         initAttr(context, attrs);
-
+        initView(context);
     }
 
     public CompoVerSpinner(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        initView(context);
-        this.context = context;
         initAttr(context, attrs);
-
+        initView(context);
     }
 
     public int getCurrentPosition() {
-        if (mode != null && binding != null) {
-            return binding.spinner.getSelectedItemPosition();
-           // return mode.getCurPosition();
+        if (mode != null && verticalBinding != null) {
+            return mode.getCurPosition();
+//            if(Horizontal == orientation) {
+//                return horizontalBinding.spinner.getSelectedItemPosition();
+//            } else {
+//                return verticalBinding.spinner.getSelectedItemPosition();
+//
+//            }
         }
         return 0;
     }
 
-    public void setOnSelectItemListener(@NonNull AdapterView.OnItemSelectedListener listener) {
-        if (binding == null) {
-            initView(context);
-            Log.e(TAG, "binding is null");
+
+    public int setCurrentPosition(int position) {
+        if (mode != null && verticalBinding != null) {
+            mode.setCurPosition(position);
+            return position;
         }
-        binding.spinner.setOnItemSelectedListener(listener);
+        return -1;
     }
 
+
+    public void setOnItemSelectListener(OnItemSelected selectListener) {
+        if (Horizontal == orientation) {
+            if (verticalBinding != null) {
+                verticalBinding.setItemSelected(selectListener);
+            }
+        } else {
+            if (horizontalBinding != null) {
+                horizontalBinding.setItemSelected(selectListener);
+            }
+        }
+
+    }
 
     private void initView(Context context) {
-        binding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.compo_ver_spinner, this, true);
+
+        if (Horizontal == orientation) {
+            horizontalBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.compo_spinner, this, true);
+            horizontalBinding.setModel(mode);
+        } else {
+            verticalBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.compo_ver_spinner, this, true);
+            verticalBinding.setModel(mode);
+        }
+
+
     }
 
-    CompoSpinnerMode mode;
-
-    String[] arrays;
 
     public void setEntries(String[] entries) {
         this.arrays = entries;
         if (arrays != null) {
             mode.setEntries(arrays);
-            binding.setModel(mode);
+            //binding.setModel(mode);
         }
     }
 
@@ -83,14 +107,16 @@ public class CompoVerSpinner extends ConstraintLayout {
     private void initAttr(Context context, AttributeSet set) {
         TypedArray array = context.obtainStyledAttributes(set, R.styleable.CompoSpinner);
         String key = array.getString(R.styleable.CompoSpinner_title);
+        orientation = array.getInt(R.styleable.CompoSpinner_orientationLayout, 0);
         setText(key);
-        mode = new CompoSpinnerMode();
         array.recycle();
     }
 
     private void setText(String text) {
-        if (binding != null && !TextUtils.isEmpty(text)) {
-            binding.setTitle(text);
+        if (!TextUtils.isEmpty(text)) {
+            mode.setTitle(text);
         }
+
+
     }
 }

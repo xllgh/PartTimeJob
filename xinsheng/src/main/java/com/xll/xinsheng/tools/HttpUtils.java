@@ -7,6 +7,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -41,12 +42,13 @@ public class HttpUtils<T> {
     public static final String DONE_LIST = HOST_REMOTE + "/admin/objproject/getYiBanList";
     public static final String INVOICE_TYPE = HOST_REMOTE + "/admin/objpayment/getkmxx";
     public static final String FILE_URL_HEADER = "http://39.98.167.156:8081/upload/";
-    public static final String ORDER_EDITE = HOST_REMOTE + "/admin/objproject/getOrderEditPage";
+    public static final String ORDER_EDIT = HOST_REMOTE + "/admin/objproject/getOrderEditPage";
     public static final String REIMBURSE_DEAL = HOST_REMOTE + "/admin/objpayment/paymentEditSave";
     public static final String PAY_LOAN = HOST_REMOTE + "/admin/objloan/loanEditSave";
     public static final String TP_PROCESS = HOST_REMOTE + "/admin/objspeapp/speAppEditSave";
     public static final String NOTICE = HOST_REMOTE + "/admin/objproject/getNotice";
     public static final String PAY_LOAN_REQUEST = HOST_REMOTE + "/admin/objloan/loanCreateSave";
+    public static final String CHANNELID_UPDATE = HOST_REMOTE + "/admin/objsendnotice/channelUpdate";
 
 
 
@@ -74,16 +76,18 @@ public class HttpUtils<T> {
                 return map;
             }
         };
+        stringRequest.setShouldCache(false);
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(10000, 1, 1.0f));
         queue.add(stringRequest);
     }
 
-    public static void post(String url, final HashMap<String, String> requestParam, final XinResponseListener listener) {
+    public static void post(final String url, final HashMap<String, String> requestParam, final XinResponseListener listener) {
 
         Log.i(TAG, "url:" + url);
         final HashMap<String, String> map = new HashMap<>();
 
         if (requestParam != null) {
-            Log.d(TAG, "request:" + requestParam.toString());
+            Log.d(TAG, url + ":request:" + requestParam.toString());
             try {
                 for (Map.Entry<String, String> entry : requestParam.entrySet()) {
                     String value = entry.getValue();
@@ -120,7 +124,7 @@ public class HttpUtils<T> {
 
             @Override
             public void onResponse(String response) {
-                Log.e(TAG, "response:" + response);
+                Log.e(TAG, url +":response:" + response);
                 if (TextUtils.isEmpty(response)) {
                     Toast.makeText(context, R.string.request_null, Toast.LENGTH_LONG).show();
                     return;
@@ -148,7 +152,7 @@ public class HttpUtils<T> {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("response", "error" + error.getMessage());
+                Log.e("response", url +":error:" + error.getMessage()+ "|" + error.networkResponse);
                 Toast.makeText(context, R.string.request_error, Toast.LENGTH_LONG).show();
             }
         }) {
@@ -161,12 +165,17 @@ public class HttpUtils<T> {
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> map = new HashMap<>();
                 Log.i("HttpUtils", "sessionId:" + id);
-                map.put("Content-Type", "application/x-www-form-urlencoded");
+                 map.put("Content-Type", "application/x-www-form-urlencoded");
                 map.put("Cookie", "JSESSIONID=" + id);
+                map.put("Accept","*/*");
                 map.put("Connection", "keep-alive");
                 return map;
             }
         };
+
+        //4633
+        stringRequest.setShouldCache(false);
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(10000, 1, 1.0f));
         queue.add(stringRequest);
     }
 }
