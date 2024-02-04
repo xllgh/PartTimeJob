@@ -1,5 +1,6 @@
 package com.xll.xinsheng.handler;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
@@ -7,6 +8,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.xinsheng.R;
 import com.google.gson.Gson;
@@ -21,6 +23,7 @@ import com.xll.xinsheng.tools.Utils;
 import com.xll.xinsheng.ui.LoanPayRequestActivity;
 import com.xll.xinsheng.ui.PendingActivity;
 import com.xll.xinsheng.ui.ReimburseRequestActivity;
+import com.xll.xinsheng.ui.SpecialCreateActivity;
 
 import java.util.HashMap;
 import java.util.List;
@@ -34,11 +37,15 @@ public class PendingDealHandler {
 
     private PendingDetailInfo info;
 
+    private static long lastClickTime;
+
     private static final String TAG = "PendingDealHandler";
+    private Context context;
 
 
-    public PendingDealHandler(PendingDetailInfo info) {
+    public PendingDealHandler(Context context,PendingDetailInfo info) {
         this.info = info;
+        this.context = context;
     }
 
     //TODO 用注解 代替 枚举
@@ -74,10 +81,16 @@ public class PendingDealHandler {
 
 
     public void onDeleteClick(Context context, PendingDealModel model) {
+        if (Utils.isFastClick(lastClickTime, System.currentTimeMillis(), 500)) {
+            return;
+        }
         action(info.getOrderId(), context, model, DELETE);
     }
 
     public void onEditClick(Context context, PendingDealModel model) {
+        if (Utils.isFastClick(lastClickTime, System.currentTimeMillis(), 500)){
+            return;
+        }
         //TODO 编辑内容
         @Utils.ProcessType int type = Utils.getProcessType(info.getOrderId());
         switch (type) {
@@ -85,31 +98,47 @@ public class PendingDealHandler {
                Intent intent = new Intent(context, ReimburseRequestActivity.class);
                intent.putExtra("PendingDetailInfo", new Gson().toJson(info));
                context.startActivity(intent);
+                ((AppCompatActivity)context).finish();
                 break;
             case PAY_LOAN:
                 Intent plIntent = new Intent(context, LoanPayRequestActivity.class);
                 plIntent.putExtra("PendingDetailInfo", new Gson().toJson(info));
                 context.startActivity(plIntent);
+                ((AppCompatActivity)context).finish();
+
                 break;
             case TP:
-               // tp(context, action, info, model.getComment());
+                Intent tplIntent = new Intent(context, SpecialCreateActivity.class);
+                tplIntent.putExtra("PendingDetailInfo", new Gson().toJson(info));
+                context.startActivity(tplIntent);
+                ((AppCompatActivity)context).finish();
                 break;
             case UNKNOWN:
                 Toast.makeText(context, R.string.unknown_process_type, Toast.LENGTH_LONG).show();
+                ((AppCompatActivity)context).finish();
                 break;
         }
     }
 
 
     public void onPassClick(Context context, PendingDealModel model) {
+        if (Utils.isFastClick(lastClickTime, System.currentTimeMillis(), 500)) {
+            return;
+        }
         action(info.getOrderId(), context, model, PASS);
     }
 
     public void onDismissLastNode(Context context, PendingDealModel model) {
+        if (Utils.isFastClick(lastClickTime, System.currentTimeMillis(), 500)) {
+            return;
+        }
         action(info.getOrderId(), context, model, DISMISS_LAST_NODE);
     }
 
     public void onDismissInitiator(Context context, PendingDealModel model) {
+        if (Utils.isFastClick(lastClickTime, System.currentTimeMillis(), 500)) {
+            return;
+        }
         action(info.getOrderId(), context, model, DISMISS_INITIATOR);
     }
 
@@ -139,11 +168,18 @@ public class PendingDealHandler {
                 map.put("rownum", String.valueOf(orderDetailItems.size()));
             }
 
-            HttpUtils.post(HttpUtils.REIMBURSE_DEAL, map, new HttpUtils.XinResponseListener() {
+            final AlertDialog dialog = Utils.getDialog(context, R.string.dealing);
+            dialog.show();
+            HttpUtils.post(HttpUtils.REIMBURSE_DEAL_EDIT, map, new HttpUtils.XinResponseListener() {
                 @Override
                 public void onResponse(String response) {
+                    dialog.dismiss();
                     handleResponse(response, context);
+                }
 
+                @Override
+                public void onError(String response) {
+                    dialog.dismiss();
                 }
             });
 
@@ -152,6 +188,7 @@ public class PendingDealHandler {
 
     //特批
     private void tp(@NonNull final Context context, int type, @NonNull PendingDetailInfo info, String coment) {
+
         HashMap<String, String> map = new HashMap<>();
         List<PaymentItem> paymentItems = info.getPaymentList();
         if (paymentItems != null && paymentItems.size() > 0) {
@@ -168,10 +205,18 @@ public class PendingDealHandler {
             map.put("contractReason", item.getSeal_desc());
             map.put("remark", TextUtils.isEmpty(coment) ? item.getRemark() : coment);
             Log.i(TAG, "comment:" + coment);
-            HttpUtils.post(HttpUtils.TP_PROCESS, map, new HttpUtils.XinResponseListener() {
+            final AlertDialog dialog = Utils.getDialog(context, R.string.dealing);
+            dialog.show();
+            HttpUtils.post(HttpUtils.SPECIAL_PROCESS_EDIT, map, new HttpUtils.XinResponseListener() {
                 @Override
                 public void onResponse(String response) {
+                    dialog.dismiss();
                     handleResponse(response, context);
+                }
+
+                @Override
+                public void onError(String response) {
+                    dialog.dismiss();
                 }
             });
         }
@@ -179,6 +224,7 @@ public class PendingDealHandler {
 
     //支付和借款
     private void payAndLoan(@NonNull final Context context, int type, @NonNull PendingDetailInfo info, String coment) {
+
         HashMap<String, String> map = new HashMap<>();
         List<PaymentItem> paymentItems = info.getPaymentList();
         if (paymentItems != null && paymentItems.size() > 0) {
@@ -205,10 +251,19 @@ public class PendingDealHandler {
                 }
             }
 
-            HttpUtils.post(HttpUtils.PAY_LOAN, map, new HttpUtils.XinResponseListener() {
+            final AlertDialog dialog = Utils.getDialog(context, R.string.dealing);
+            dialog.show();
+            HttpUtils.post(HttpUtils.PAY_LOAN_EDIT, map, new HttpUtils.XinResponseListener() {
                 @Override
                 public void onResponse(String response) {
                     handleResponse(response, context);
+                    dialog.dismiss();
+                }
+
+                @Override
+                public void onError(String response) {
+                    dialog.dismiss();
+
                 }
             });
         }

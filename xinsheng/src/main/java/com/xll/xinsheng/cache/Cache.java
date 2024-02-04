@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.xll.xinsheng.bean.InitialData;
+import com.xll.xinsheng.bean.InvoiceType;
 import com.xll.xinsheng.bean.LoginInfo;
 
 import java.lang.reflect.Type;
@@ -44,6 +45,17 @@ public class Cache<T> {
         sharedPreferences.edit().remove(key).apply();
     }
 
+    public void clearAllCache() {
+        sharedPreferences.edit().remove(Cache.INITIAL_DATA).apply();
+        sharedPreferences.edit().remove(Cache.LOGIN_INFO).apply();
+        sharedPreferences.edit().remove(Cache.GENERAL_INFO).apply();
+        sharedPreferences.edit().remove(Cache.KMXX_INFO).apply();
+        sharedPreferences.edit().remove(Cache.KEY_SAVE_LOGIN).apply();
+        sharedPreferences.edit().remove(Cache.KEY_USERNAME).apply();
+        sharedPreferences.edit().remove(Cache.KEY_PASSWORD).apply();
+    }
+
+
     public LoginInfo getLoginInfo() {
         String content = sharedPreferences.getString("content", null);
         Gson gson = new Gson();
@@ -59,6 +71,17 @@ public class Cache<T> {
         return gson.fromJson(content, InitialData.class);
     }
 
+    public InvoiceType getInvoiceType(String key) {
+        String content = sharedPreferences.getString(key, null);
+        Log.i(TAG,  "getInvoiceType-key:" + key + " value:"+  content);
+        Gson gson = new Gson();
+        return gson.fromJson(content, InvoiceType.class);
+    }
+
+    public void saveInvoiceType(String key, String value){
+        sharedPreferences.edit().putString(key, value).apply();
+    }
+
     public T getInfo() {
         String content = sharedPreferences.getString("content", null);
         Log.i(TAG,  "content:" + content);
@@ -66,6 +89,9 @@ public class Cache<T> {
         Type type = new TypeToken<T>() {}.getType();
         return gson.fromJson(content, type);
     }
+
+
+
 
     public void saveGeneralInfo(String key, Boolean value) {
         sharedPreferences.edit().putBoolean(key, value).apply();
@@ -89,6 +115,7 @@ public class Cache<T> {
 
 
     public void saveInfo(String info) {
+        Log.i(TAG, "saveInfo:" + info);
         sharedPreferences.edit().putString("content", info).apply();
         sharedPreferences.edit().putLong("time", System.currentTimeMillis()).apply();
     }

@@ -36,6 +36,8 @@ public class HttpUtils<T> {
 
     public static final String LOGIN = HOST_REMOTE + "/admin/login/doLogin";
     public static final String REIMBURSE = HOST_REMOTE + "/admin/objpayment/paymentCreateSave";
+    public static final String REIMBURSE_DEAL_EDIT = HOST_REMOTE + "/admin/objpayment/paymentEditSave";
+
     public static final String INITIAL_DATA = HOST_REMOTE + "/admin/objpayment/getInitData";
     public static final String PENDING_ORDER = HOST_REMOTE + "/admin/objpayment/getDaiBanList";
     public static final String DONE_ORDER = HOST_REMOTE + "/admin/objproject/getYiBanList";
@@ -43,18 +45,18 @@ public class HttpUtils<T> {
     public static final String INVOICE_TYPE = HOST_REMOTE + "/admin/objpayment/getkmxx";
     public static final String FILE_URL_HEADER = "http://39.98.167.156:8081/upload/";
     public static final String ORDER_EDIT = HOST_REMOTE + "/admin/objproject/getOrderEditPage";
-    public static final String REIMBURSE_DEAL = HOST_REMOTE + "/admin/objpayment/paymentEditSave";
-    public static final String PAY_LOAN = HOST_REMOTE + "/admin/objloan/loanEditSave";
-    public static final String TP_PROCESS = HOST_REMOTE + "/admin/objspeapp/speAppEditSave";
-    public static final String NOTICE = HOST_REMOTE + "/admin/objproject/getNotice";
+
     public static final String PAY_LOAN_REQUEST = HOST_REMOTE + "/admin/objloan/loanCreateSave";
+    public static final String PAY_LOAN_EDIT = HOST_REMOTE + "/admin/objloan/loanEditSave";
+
+    public static final String SPECIAL_PROCESS_CREATE = HOST_REMOTE + "/admin/objspeapp/speAppCreateSave";
+    public static final String SPECIAL_PROCESS_EDIT = HOST_REMOTE + "/admin/objspeapp/speAppEditSave";
+    public static final String NOTICE = HOST_REMOTE + "/admin/objproject/getNotice";
     public static final String CHANNELID_UPDATE = HOST_REMOTE + "/admin/objsendnotice/channelUpdate";
-
-
-
 
     public interface XinResponseListener {
         void onResponse(String response);
+        void onError(String response);
     }
 
 
@@ -145,6 +147,7 @@ public class HttpUtils<T> {
                         //系统的数据返回异常
                         Toast.makeText(context, R.string.login_session_expired, Toast.LENGTH_LONG).show();
                     }
+                    listener.onError(context.getString(R.string.login_session_expired));
                     e.printStackTrace();
                 }
 
@@ -153,6 +156,9 @@ public class HttpUtils<T> {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e("response", url +":error:" + error.getMessage()+ "|" + error.networkResponse);
+                if(listener != null) {
+                    listener.onError(":error:" + error.getMessage()+ "|" + error.networkResponse);
+                }
                 Toast.makeText(context, R.string.request_error, Toast.LENGTH_LONG).show();
             }
         }) {

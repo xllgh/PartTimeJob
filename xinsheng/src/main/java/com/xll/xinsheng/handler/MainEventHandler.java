@@ -43,8 +43,12 @@ public class MainEventHandler {
     }
 
     public void onPopupMenu(View view, Context context) {
+        final Cache generalCache = new Cache(context, Cache.GENERAL_INFO);
+        String strUsername = generalCache.getString(Cache.KEY_USERNAME);
+
+
         PopupMenu menu = new PopupMenu(context, view);
-        MenuItem item = menu.getMenu().add(Menu.NONE, Menu.FIRST, Menu.FIRST, R.string.logout );
+        MenuItem item = menu.getMenu().add(Menu.NONE, Menu.FIRST, Menu.FIRST,   context.getString(R.string.logout)+ "|" + strUsername);
         item.setIcon(R.drawable.log_out);
 
        // menu.inflate(R.menu.main_menu);
@@ -54,11 +58,8 @@ public class MainEventHandler {
                 int id = item.getItemId();
                 if (id == Menu.FIRST) {
                     final Context context = MyApplication.getMyApplication();
-                    new Cache<>(context, Cache.LOGIN_INFO).clearCache(Cache.LOGIN_INFO);
-                    new Cache<InitialData>(context, Cache.INITIAL_DATA).clearCache(Cache.INITIAL_DATA);
-                    new Cache<>(context,Cache.GENERAL_INFO).clearCache(Cache.GENERAL_INFO);
+                    new Cache<>(context, Cache.LOGIN_INFO).clearAllCache();
                     context.startActivity(new Intent(context, LoginActivity.class));
-
                 }
                 return false;
             }

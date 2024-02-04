@@ -31,6 +31,8 @@
             android:background="@drawable/shape_white"
             android:paddingStart="@dimen/dimen_10"
             android:paddingEnd="@dimen/dimen_10"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:orientation="vertical">
 
             <com.xll.xinsheng.myview.CompoVerSpinner

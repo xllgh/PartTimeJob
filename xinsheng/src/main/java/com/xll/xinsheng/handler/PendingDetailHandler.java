@@ -3,6 +3,8 @@ package com.xll.xinsheng.handler;
 import android.content.Context;
 import android.content.Intent;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.gson.Gson;
 import com.xll.xinsheng.bean.PaymentItem;
 import com.xll.xinsheng.bean.PendingDetailInfo;
@@ -34,6 +36,7 @@ public class PendingDetailHandler {
             intent.putExtra("PendingDetail", new Gson().toJson(info));
         }
         context.startActivity(intent);
+        ((AppCompatActivity)context).finish();
     }
 
 }

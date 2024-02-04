@@ -1,5 +1,6 @@
 package com.xll.xinsheng.bean;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
@@ -14,6 +15,18 @@ public class InvoiceType {
 
     @SerializedName("username")
     private String userName;
+
+
+    public String getProjectListId() {
+        return projectListId;
+    }
+
+    public void setProjectListId(String projectListId) {
+        this.projectListId = projectListId;
+    }
+
+    @SerializedName("projectListId")
+    private String projectListId;
 
     public List<InvoiceItem> getInvoiceItems() {
         return invoiceItems;
@@ -108,7 +121,7 @@ public class InvoiceType {
         @Override
         public String toString() {
             return "InvoiceItem{" +
-                    "fees=" + fees +
+                    "fees='" + fees + '\'' +
                     ", itemTypeName='" + itemTypeName + '\'' +
                     ", itemId='" + itemId + '\'' +
                     ", itemTypeId='" + itemTypeId + '\'' +

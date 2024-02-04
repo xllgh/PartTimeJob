@@ -35,15 +35,19 @@ public class ItemReimburseFee extends BaseObservable {
 
     private String remarks;
 
-    private HashMap<String, List<InvoiceType.InvoiceItem>> invoiceTypeMap;
+    //发票科目
+    private String invoiceSubject;
 
+    private InvoiceType invoiceType;
 
-    public HashMap<String, List<InvoiceType.InvoiceItem>> getInvoiceTypeMap() {
-        return invoiceTypeMap;
+    private int position;
+
+    public int getPosition() {
+        return position;
     }
 
-    public void setInvoiceTypeMap(HashMap<String, List<InvoiceType.InvoiceItem>> invoiceTypeMap) {
-        this.invoiceTypeMap = invoiceTypeMap;
+    public void setPosition(int position) {
+        this.position = position;
     }
 
     @Bindable
@@ -148,6 +152,22 @@ public class ItemReimburseFee extends BaseObservable {
         notifyPropertyChanged(BR.reimburseLimitFee);
     }
 
+    public String getInvoiceSubject() {
+        return invoiceSubject;
+    }
+
+    public void setInvoiceSubject(String invoiceSubject) {
+        this.invoiceSubject = invoiceSubject;
+    }
+
+    public InvoiceType getInvoiceType() {
+        return invoiceType;
+    }
+
+    public void setInvoiceType(InvoiceType invoiceType) {
+        this.invoiceType = invoiceType;
+    }
+
     @Override
     public String toString() {
         return "ItemReimburseFee{" +
@@ -156,12 +176,15 @@ public class ItemReimburseFee extends BaseObservable {
                 ", reimburseDate='" + reimburseDate + '\'' +
                 ", feeTypeList=" + feeTypeList +
                 ", invoiceItemList=" + invoiceItemList +
-               // ", itemTypeName=" + Arrays.toString(itemTypeName) +
-                //", invoiceTypeName=" + Arrays.toString(invoiceTypeName) +
+                ", itemTypeName=" + Arrays.toString(itemTypeName) +
+                ", invoiceTypeName=" + Arrays.toString(invoiceTypeName) +
                 ", invoiceTypePos=" + invoiceTypePos +
                 ", itemTypePos=" + itemTypePos +
                 ", fpCount='" + fpCount + '\'' +
                 ", remarks='" + remarks + '\'' +
+                ", invoiceSubject='" + invoiceSubject + '\'' +
+                ", invoiceType=" + invoiceType +
+                ", position=" + position +
                 '}';
     }
 }

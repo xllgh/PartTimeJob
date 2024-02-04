@@ -15,6 +15,7 @@
     <string name="reimburseManage">报销管理</string>
     <string name="docManage">文档管理</string>
     <string name="humanManage">人力管理</string>
+    <string name="specialProcessCreate">特批流程</string>
 
     <string name="peopleManage">人员管理</string>
     <string name="roleManage">角色管理</string>
@@ -43,7 +44,7 @@
     <string name="invoice_subject">发票科目</string>
     <string name="invoice_amount">发票张数</string>
     <string name="happen_date">发生时间</string>
-    <string name="remarks">备注</string>
+    <string name="remarks">备        注</string>
 
     <string name="fee_type">费用类型</string>
     <string name="reimburse_limit">报销限额</string>
@@ -95,6 +96,7 @@
     <string name="order_type">工单类型:</string>
     <string name="order_last_node">上个处理人:</string>
     <string name="order_status">订单状态:</string>
+    <string name="dealing">请稍等，处理中。。。</string>
 
     <string name="hint_input">请输入...</string>
 
@@ -137,6 +139,8 @@
     <string name="handle_fail">处理失败</string>
     <string name="reimburse_no_data">此报销审批请求没有报销明细！</string>
     <string name="request_type">申请类型</string>
+    <string name="request_type_t">申请类型:</string>
+
     <string name="download_success">文件下载完成</string>
     <string name="download_failed">文件下载失败</string>
     <string name="downloading">文件正在下载中,请稍等。。。</string>
@@ -183,6 +187,9 @@
     <string name="unknown_process_type">暂时不支持改类型流程的审批，请告知管理员</string>
     <string name="reimburse_request_success">提交报销申请成功</string>
     <string name="reimburse_request_fail">提交报销申请失败</string>
+    <string name="tp_request_success">提交特批申请成功</string>
+    <string name="tp_request_fail">提交特批申请失败</string>
+
     <string name="hint_insert_fee_detail">请添加费用明细数据</string>
 
     <string-array name="spinner_test">

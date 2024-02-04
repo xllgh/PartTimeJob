@@ -37,6 +37,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dimen_10"
             android:entries="@{model.entries}"
+            android:selectedItemPosition="@={model.curPosition}"
+            android:onItemSelected = "@{itemSelected}"
             android:gravity="start"
             android:textSize="@dimen/text_size_15"
             app:layout_constraintStart_toEndOf="@id/hint_order_code"

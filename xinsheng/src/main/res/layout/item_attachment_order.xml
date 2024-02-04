@@ -37,7 +37,6 @@
             android:src="@drawable/delete_black"
             android:layout_marginEnd="@dimen/dimen_10"
             android:onClick="@{deleteListener}"
-            android:visibility="gone"
             android:layout_alignParentEnd="true" />
     </RelativeLayout>
 </layout>

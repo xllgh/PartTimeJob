@@ -86,5 +86,17 @@ public class InitialData implements Serializable {
         this.usercaption = usercaption;
     }
 
-
+    @Override
+    public String toString() {
+        return "InitialData{" +
+                "projectList=" + projectList +
+                ", userInfoList=" + userInfoList +
+                ", bankList=" + bankList +
+                ", pageTitleBread=" + pageTitleBread +
+                ", itemTypeList=" + itemTypeList +
+                ", userid='" + userid + '\'' +
+                ", username='" + username + '\'' +
+                ", usercaption='" + usercaption + '\'' +
+                '}';
+    }
 }

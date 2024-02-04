@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -48,19 +49,13 @@ public class CompoVerSpinner extends ConstraintLayout {
     public int getCurrentPosition() {
         if (mode != null && verticalBinding != null) {
             return mode.getCurPosition();
-//            if(Horizontal == orientation) {
-//                return horizontalBinding.spinner.getSelectedItemPosition();
-//            } else {
-//                return verticalBinding.spinner.getSelectedItemPosition();
-//
-//            }
         }
         return 0;
     }
 
 
     public int setCurrentPosition(int position) {
-        if (mode != null && verticalBinding != null) {
+        if (mode != null) {
             mode.setCurPosition(position);
             return position;
         }
@@ -69,7 +64,7 @@ public class CompoVerSpinner extends ConstraintLayout {
 
 
     public void setOnItemSelectListener(OnItemSelected selectListener) {
-        if (Horizontal == orientation) {
+        if (Vertical == orientation) {
             if (verticalBinding != null) {
                 verticalBinding.setItemSelected(selectListener);
             }

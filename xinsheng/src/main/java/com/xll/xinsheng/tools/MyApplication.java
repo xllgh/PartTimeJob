@@ -34,9 +34,9 @@ public class MyApplication extends Application {
         Cache generalCache = new Cache(MyApplication.getMyApplication(), Cache.GENERAL_INFO);
         String curUserName = generalCache.getString(Cache.KEY_USERNAME);
 
-        if (cache.isExpired(60 * 60 * 1000, System.currentTimeMillis()) ||
+        if (cache.isExpired(10 * 60 * 1000, System.currentTimeMillis()) ||
                 oldUserName == null || !oldUserName.equals(curUserName)) {
-            Log.i(TAG, "cache expired, reload");
+            Log.i(TAG, "initialData cache expired, reload");
             HttpUtils.post(HttpUtils.INITIAL_DATA, null, new HttpUtils.XinResponseListener() {
                 @Override
                 public void onResponse(String response) {
@@ -47,24 +47,14 @@ public class MyApplication extends Application {
                         e.printStackTrace();
                     }
                 }
+
+                @Override
+                public void onError(String response) {
+
+                }
             });
         }
     }
-/*
-    @Override
-    protected void attachBaseContext(Context context) {
-        super.attachBaseContext(context);
-        AGConnectServicesConfig config = AGConnectServicesConfig.fromContext(context);
-        config.overlayWith(new LazyInputStream(context) {
-            public InputStream get(Context context) {
-                try {
-                    return context.getAssets().open("agconnect-services.json");
-                } catch (IOException e) {
-                    return null;
-                }
-            }
-        });
-    }*/
 
     public static MyApplication getMyApplication() {
         return myApplication;

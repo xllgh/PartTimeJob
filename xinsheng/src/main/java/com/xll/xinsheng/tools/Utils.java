@@ -2,6 +2,7 @@ package com.xll.xinsheng.tools;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
@@ -15,8 +16,10 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import androidx.annotation.IdRes;
 import androidx.annotation.IntDef;
 import androidx.annotation.NonNull;
+import androidx.annotation.StringRes;
 import androidx.core.app.ActivityCompat;
 import androidx.databinding.BindingAdapter;
 
@@ -37,6 +40,7 @@ public class Utils {
     public static final int PAY_LOAN = 2;
     public static final int TP = 3;
     public static final int UNKNOWN = -1;
+    public static final String Initiator = "0";
 
 
 
@@ -219,6 +223,8 @@ public class Utils {
         return "bx-" + datetime.substring(0, 8) + "-" + datetime.substring(8);
     }
 
+
+
     public static float parseToFloat(String value) {
         if (TextUtils.isEmpty(value)) {
             return 0;
@@ -229,5 +235,21 @@ public class Utils {
             e.printStackTrace();
             return 0;
         }
+    }
+
+    public static boolean isFastClick(long lastTime, long currentTime, long interval ) {
+        if (currentTime - lastTime <= interval) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
+    public static AlertDialog getDialog(@NonNull Context context, @StringRes int resId) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setMessage(context.getString(resId));
+        builder.setCancelable(false);
+        return builder.create();
     }
 }

@@ -1,5 +1,6 @@
 package com.xll.xinsheng.ui;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,9 +15,12 @@ import com.xll.xinsheng.bean.DaiBanInfo;
 import com.xll.xinsheng.bean.DaiBanItem;
 import com.xll.xinsheng.model.PendingProcess;
 import com.xll.xinsheng.tools.HttpUtils;
+import com.xll.xinsheng.tools.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import okhttp3.internal.Util;
 
 public class PendingActivity extends XinActivity {
     private static final String TAG = "PendingActivity";
@@ -47,9 +51,12 @@ public class PendingActivity extends XinActivity {
 
 
     private void getPendingInfo() {
+        final AlertDialog dialog = Utils.getDialog(this, R.string.loading);
+        dialog.show();
         HttpUtils.post(HttpUtils.PENDING_ORDER, null, new HttpUtils.XinResponseListener() {
             @Override
             public void onResponse(String response) {
+                dialog.dismiss();
                 Gson gson = new Gson();
                 DaiBanInfo daiBanInfo = gson.fromJson(response, DaiBanInfo.class);
 
@@ -76,6 +83,11 @@ public class PendingActivity extends XinActivity {
                     }
                 }
 
+            }
+
+            @Override
+            public void onError(String response) {
+                dialog.dismiss();
             }
         });
     }

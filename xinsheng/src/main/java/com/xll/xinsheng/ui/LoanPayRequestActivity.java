@@ -1,5 +1,6 @@
 package com.xll.xinsheng.ui;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
@@ -19,6 +20,7 @@ import com.example.xinsheng.databinding.ActivityLoanPayBinding;
 import com.google.gson.Gson;
 import com.xll.xinsheng.adapter.AttachmentItemAdapter;
 import com.xll.xinsheng.bean.BankType;
+import com.xll.xinsheng.bean.FileInfo;
 import com.xll.xinsheng.bean.InitialData;
 import com.xll.xinsheng.bean.ItemType;
 import com.xll.xinsheng.bean.LoanPayResponse;
@@ -30,11 +32,9 @@ import com.xll.xinsheng.cache.Cache;
 import com.xll.xinsheng.model.LoanPayModel;
 import com.xll.xinsheng.myview.CompoEditView;
 import com.xll.xinsheng.tools.HttpUtils;
-import com.xll.xinsheng.tools.OkHttpUtils;
+import com.xll.xinsheng.tools.HttpFileUtils;
 import com.xll.xinsheng.tools.Uri2PathUtil;
 import com.xll.xinsheng.tools.Utils;
-
-import org.w3c.dom.Text;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -47,16 +47,15 @@ import java.util.Set;
 public class LoanPayRequestActivity extends XinActivity {
 
     public static final int OPEN_FILE_REQUEST_CODE = 120;
-    private static HashMap<String, String> map = new HashMap<>();
+    private static final HashMap<String, String> map = new HashMap<>();
 
     final LoanPayModel model = new LoanPayModel();
     private String createUser;
     private ActivityLoanPayBinding binding;
     private static final String TAG = "LoanPayRequestActivity";
-    private static final String EDIT_NOW_NODE = "1";
+    private static long lastSubmitTime;
 
     private String contractId;
-    private int processPos = 0;
    private AttachmentItemAdapter adapter;
     private String project_name;
     private String fee_type;
@@ -67,52 +66,21 @@ public class LoanPayRequestActivity extends XinActivity {
     private String itemTypeName;
     private String orderId;
     private String now_node = "-1";
+    private String feeDept;
+    private List<String> projectNames = new ArrayList<>();
+    private List<String> itemTypeNames = new ArrayList<>();
+    private List<String> processNames = new ArrayList<>();
+    private List<String> bankNames = new ArrayList<>();
+    private List<FileInfo> fileList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Utils.applyPermission(this);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_loan_pay);
-
-
-        Intent intent = getIntent();
-        String PendingDetailInfo = intent.getStringExtra("PendingDetailInfo");
-        if(!TextUtils.isEmpty(PendingDetailInfo)) {
-           PendingDetailInfo info = new Gson().fromJson(PendingDetailInfo, PendingDetailInfo.class);
-
-            orderId = info.getOrderId();
-            contractId = orderId;
-            final List<PaymentItem> paymentList = info.getPaymentList();
-            for(PaymentItem item : paymentList) {
-                Log.e(TAG, "PaymentItem" + item);
-                project_name = item.getProject_name();
-                itemTypeName = item.getItem_type_name();
-                fee_type = item.getFee_type();
-                process_type = item.getProcess_type();// TODO 开户行
-                bank_id = item.getBank_id();
-                bx_desc = item.getBx_desc();
-                bx_fee = item.getBx_fee();
-
-                now_node = item.getNow_node();
-
-                model.setRequestMoney(item.getFee() + "");
-                model.setBankName(item.getBank_userid());
-                model.setBankAccount(item.getBank_username());
-                model.setBankNetwork(item.getBank_attr());
-                model.setRequestReason(item.getSeal_desc());
-
-            }
-
-            final List<OrderDetailItem> detailList = info.getDetailList();
-            if(detailList!=null) {
-                for(OrderDetailItem item : detailList) {
-                    String bxFee = item.getBxFee();
-                    String bxUser = item.getBxUser();
-                   // item.getbx
-                }
-            }
-
-        }
+        adapter = new AttachmentItemAdapter(LoanPayRequestActivity.this, fileList);
+        binding.setAttachmentAdapter(adapter);
+        getIntentInfo();
 
         map.put("1", getString(R.string.loan_process));
         map.put("2", getString(R.string.pay_process));
@@ -133,194 +101,157 @@ public class LoanPayRequestActivity extends XinActivity {
             model.setUserName(data.getUsercaption());
             createUser = data.getUsername();
             final List<Project> projectList = new ArrayList<>();
+            //项目信息
             if (data.getProjectList() != null) {
-                projectList.addAll(data.getProjectList());
-                String[] projectArray = new String[projectList.size()];
-                int i = 0;
-                int select=0;
-                for (Project project : projectList) {
+                for (Project project : data.getProjectList()) {
                     String name =  project.getProjectName();
-                    if (!TextUtils.isEmpty(name)) {
-                        if(name.equals(project_name)) {
-                            select = i;
-                        }
+                    if (!TextUtils.isEmpty(name) && name.equals(project_name)) {
+                        projectNames.add(0, name);
+                        projectList.add(0, project);
+                    } else {
+                        projectNames.add(name);
+                        projectList.add(project);
                     }
-                    projectArray[i++] = name;
                 }
-                model.setProjectEntries(projectArray);
-                binding.requestProject.setCurrentPosition(select);//TODO 项目类型
+                model.setProjectEntries(projectNames.toArray(new String[0]));
             }
 
             //申请类型
             final List<ItemType> itemTypeList = new ArrayList<>();
             if (data.getItemTypeList() != null) {
-                itemTypeList.addAll(data.getItemTypeList());
-                String[] itemArray = new String[itemTypeList.size() + 1];
-                int i = 0;
-                itemArray[i++] = getString(R.string.select);
-                int itemSelect = 0;
-                for (ItemType itemType : itemTypeList) {
+                for (ItemType itemType : data.getItemTypeList()) {
                     String name = itemType.getTypeName();
-                    if(!TextUtils.isEmpty(name)) {
-                        if(name.equals(itemTypeName)) {
-                            itemSelect = i;
-                        }
+                    if(!TextUtils.isEmpty(name) && name.equals(itemTypeName)) {
+                        //itemTypeNames.remove(0);
+                        itemTypeNames.add(0, name);
+                        itemTypeList.add(0, itemType);
+                    } else {
+                        itemTypeNames.add(name);
+                        itemTypeList.add(itemType);
                     }
-                    itemArray[i++] = name;
                 }
-                Log.i(TAG, "itemSelect:" + itemSelect);
-                binding.requestType.setCurrentPosition(itemSelect);//TODO
-                model.setRequestEntries(itemArray);
+                model.setRequestEntries(itemTypeNames.toArray(new String[0]));
             }
 
             //流程类型
             if (!map.isEmpty()) {
                 final Set<Map.Entry<String, String>> entries = map.entrySet();
-                String[] processType = new String[map.size() + 1];
-                int i = 0;
-
-                processType[i] = getString(R.string.select);
-                int processSelect = 0;
                 Iterator<Map.Entry<String, String>> iterator = entries.iterator();
                 while (iterator.hasNext()) {
                     final Map.Entry<String, String> next = iterator.next();
                     String key = next.getKey();
-                    Log.i(TAG, "key:" + key + " process_type:" + process_type);
                     if (!TextUtils.isEmpty(key) && key.equals(process_type)) {
-                        processSelect = i;
+                        processNames.add(0, next.getValue());
+                    } else {
+                        processNames.add(next.getValue());
                     }
-                    processType[++i] = next.getValue();
                 }
-                if (EDIT_NOW_NODE.equals(now_node) ) {
+                if (Utils.Initiator.equals(now_node) ) {
                     binding.processType.setClickable(false);
                     binding.processType.setEnabled(false);
                 }
-                Log.i(TAG, "processSelect:" + processSelect +":processType:" + map +":process_type" + process_type);
-                binding.processType.setCurrentPosition(processSelect + 1);//TODO
-                model.setProcessEntries(processType);
+                model.setProcessEntries(processNames.toArray(new String[0]));
             }
-            model.setTicketId(orderId);
-
 
             //银行类型
-            final List<BankType> bankTypeList = data.getBankList();
-
-            if (bankTypeList != null && bankTypeList.size() > 0) {
-                //Log.i(TAG, bankTypeList.toString());
-                String[] itemArray = new String[bankTypeList.size() + 1];
-                int i = 0;
-                itemArray[i++] = getString(R.string.select);
-                int bankSelect = 0;
-                for (BankType bankType : bankTypeList) {
+            final List<BankType> bankTypeList = new ArrayList<>();
+            if (data.getBankList() != null ) {
+                for (BankType bankType : data.getBankList()) {
                     String bankId = bankType.getBank_id();
                     if (!TextUtils.isEmpty(bankId) && bankId.equals(bank_id)) {
-                        bankSelect = i;
+                        bankNames.add(0, bankType.getBank_name());
+                        bankTypeList.add(0, bankType);
+                    } else {
+                        bankNames.add(bankType.getBank_name());
+                        bankTypeList.add(bankType);
                     }
-                    itemArray[i++] = bankType.getBank_name();
                 }
-                model.setBankEntries(itemArray);
-                binding.bankType.setCurrentPosition(bankSelect);
+                model.setBankEntries(bankNames.toArray(new String[0]));
             }
-
-
-//            model.setBankAccount();
-//            model.setBankNetwork();
-
             binding.setModel(model);
-
-
-
             binding.setBackListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     LoanPayRequestActivity.this.finish();
                 }
             });
-
             binding.setSubmitListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    HashMap<String, String> param = new HashMap<>();
-
-                    //申请项目
-                    int projectPosition = binding.requestProject.getCurrentPosition();
-                    if (projectPosition < projectList.size() && projectPosition >= 0) {
-                        Project project = projectList.get(projectPosition);
-                        param.put("projectList", project.getProjectId());
-                    } else {
-                        Toast.makeText(LoanPayRequestActivity.this,
-                                getString(R.string.select_hint, getString(R.string.request_project)), Toast.LENGTH_LONG).show();
+                    long currentTime = System.currentTimeMillis();
+                    if (Utils.isFastClick(lastSubmitTime, currentTime, 1000)) {
                         return;
                     }
+                    lastSubmitTime = currentTime;
 
-                    //申请类型
-                    final int requestPosition = binding.requestType.getCurrentPosition() - 1;
-                    if (requestPosition >= 0) {
-                        ItemType itemType = itemTypeList.get(requestPosition);
-                        param.put("feeType", itemType.getTypeId());
-                    } else {
-                        Toast.makeText(LoanPayRequestActivity.this,
-                                getString(R.string.select_hint, getString(R.string.request_type)), Toast.LENGTH_LONG).show();
-                        return;
-                    }
 
                     //流程类别
                     if (textIsEmpty(contractId, getString(R.string.process_type))) {
                         return;
                     }
-                    param.put("contractId", contractId);
-
-                    //开户行
-                    int bankType;
-                    if ((bankType = binding.bankType.getCurrentPosition() -1) < 0) {
-                        Toast.makeText(LoanPayRequestActivity.this,
-                                getString(R.string.select_hint, getString(R.string.bank_type)), Toast.LENGTH_LONG).show();
-                        return;
-                    }
-                    param.put("bankName", bankTypeList.get(bankType).getBank_id());
-
-                    param.put("processId", "");
-                    param.put("saveType", "1");
-                    param.put("createUserName", model.getUserName());
-                    param.put("createUser", createUser);
                     if (textIsEmpty(binding.requestMoney.getEditValue(), getString(R.string.request_money))) {
                         return;
                     }
-                    param.put("fee", binding.requestMoney.getEditValue());
-
-                    param.put("feeBig", model.getRequestMoneyBig());
-
-                    if (processPos <0) {
-                        Toast.makeText(LoanPayRequestActivity.this,
-                                getString(R.string.select_hint, getString(R.string.process_type)), Toast.LENGTH_LONG).show();
-                        return;
-                    }
-                    param.put("processType", processPos + "");
-
-
-
-
                     if (textIsEmpty( binding.bankName.getEditValue(), getString(R.string.bank_name))) {
                         return;
                     }
-                    param.put("bankUserId", binding.bankName.getEditValue());
-
-
-                    if (textIsEmpty( binding.bankAccount.getEditValue(), getString(R.string.bank_account))) {
+                    if (textIsEmpty(binding.bankAccount.getEditValue(), getString(R.string.bank_account))) {
                         return;
                     }
-                    param.put("bankUserName", binding.bankAccount.getEditValue());
-
-
-
-                    param.put("bankAttr", binding.bankNetwork.getEditValue());
                     if (textIsEmpty(binding.requestReason.getEditValue(), getString(R.string.request_reason))) {
                         return;
                     }
+
+                    HashMap<String, String> param = new HashMap<>();
+
+                    //申请项目
+                    Project project = projectList.get(binding.requestProject.getCurrentPosition());
+                    param.put("projectList", project.getProjectId());
+
+                    //申请类型
+                    ItemType itemType = itemTypeList.get(binding.requestType.getCurrentPosition());
+                    param.put("feeType", itemType.getTypeId());
+
+                    //流程类别
+                    param.put("contractId", model.getTicketId());
+
+                    //开户行
+                    param.put("bankName", bankTypeList.get(binding.bankType.getCurrentPosition()).getBank_id());
+                    param.put("createUserName", model.getUserName());
+                    param.put("createUser", createUser);
+
+                    param.put("fee", binding.requestMoney.getEditValue());
+                    param.put("feeBig", model.getRequestMoneyBig());
+
+                    if(getString(R.string.loan_process).equals(processNames.get(binding.processType.getCurrentPosition()))) {
+                        param.put("processType", "1");
+                    } else {
+                        param.put("processType", "2");
+                    }
+                    param.put("bankUserId", binding.bankName.getEditValue());
+                    param.put("bankUserName", binding.bankAccount.getEditValue());
+                    param.put("bankAttr", binding.bankNetwork.getEditValue());
                     param.put("contractReason", binding.requestReason.getEditValue());
-                    HttpUtils.post(HttpUtils.PAY_LOAN_REQUEST, param, new HttpUtils.XinResponseListener() {
+
+                    String url;
+
+                    if (Utils.Initiator.equals(now_node)) {
+                        url = HttpUtils.PAY_LOAN_EDIT;
+                        param.put("nowNode", "0");
+                        param.put("feeDept",feeDept );
+                    } else {
+                        url = HttpUtils.PAY_LOAN_REQUEST;
+                        param.put("processId", "");
+                    }
+                    param.put("saveType", "1");
+                    param.put("remark", "App客户端发起");
+
+                    final AlertDialog dialog = Utils.getDialog(LoanPayRequestActivity.this, R.string.dealing);
+                    dialog.show();
+                    HttpUtils.post(url, param, new HttpUtils.XinResponseListener() {
                         @Override
                         public void onResponse(String response) {
+                            dialog.dismiss();
                             Log.i(TAG, response + "");
                             Gson gson = new Gson();
                             if (response != null) {
@@ -336,6 +267,11 @@ public class LoanPayRequestActivity extends XinActivity {
                             }
                             Toast.makeText(LoanPayRequestActivity.this, R.string.submit_process_error, Toast.LENGTH_LONG).show();
                         }
+
+                        @Override
+                        public void onError(String response) {
+                            dialog.dismiss();
+                        }
                     });
 
 
@@ -349,12 +285,13 @@ public class LoanPayRequestActivity extends XinActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.i(TAG, "onItemSelected:" + position);
                 //编辑节点信息，不需要再次生成订单号
-                if(EDIT_NOW_NODE.equals(now_node)){
+                if(Utils.Initiator.equals(now_node)){
                     return;
                 }
+                adapter.removeAllAttachment();
+                binding.processType.setCurrentPosition(position);
                 contractId = getContractId(position);
                 model.setTicketId(contractId);
-                processPos = position;
             }
         });
 
@@ -364,8 +301,6 @@ public class LoanPayRequestActivity extends XinActivity {
                 openFile();
             }
         });
-        adapter = new AttachmentItemAdapter(LoanPayRequestActivity.this, new ArrayList<String>());
-        binding.setAttachmentAdapter(adapter);
 
 
         binding.setSubmitFileListener(new View.OnClickListener() {
@@ -378,10 +313,10 @@ public class LoanPayRequestActivity extends XinActivity {
                 }
 
                 final HashMap<String , Object> param = new HashMap<>();
-                if (textIsEmpty(contractId, getString(R.string.process_type))) {
+                if (textIsEmpty(model.getTicketId(), getString(R.string.process_type))) {
                     return;
                 }
-                param.put("businessId", contractId);
+                param.put("businessId", model.getTicketId());
                 param.put("myfile", new File(filePath));
                 final ProgressDialog dialog = new ProgressDialog(LoanPayRequestActivity.this);
                 dialog.setCancelable(true);
@@ -390,11 +325,13 @@ public class LoanPayRequestActivity extends XinActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        OkHttpUtils.get().upLoadFile(OkHttpUtils.UPLOAD_FILE_URL, param, new OkHttpUtils.OnProcessListener() {
+                        HttpFileUtils.upLoadFile(HttpFileUtils.UPLOAD_FILE_URL, param, new HttpFileUtils.OnProcessListener() {
                             @Override
                             public void onSuccess(File file, String str) {
                                 Log.e(TAG, "onSuccess");
                                 dialog.dismiss();
+                                HttpFileUtils.toastUpFileSuccess(LoanPayRequestActivity.this);
+
                             }
 
                             @Override
@@ -404,13 +341,63 @@ public class LoanPayRequestActivity extends XinActivity {
                             @Override
                             public void onFailed(Exception e) {
                                 dialog.dismiss();
-                               // Toast.makeText(LoanPayRequestActivity.this, R.string.upload_file_failed, Toast.LENGTH_LONG).show();
+                                HttpFileUtils.toastUpFileFailed(LoanPayRequestActivity.this);
                             }
                         });
                     }
                 });
             }
         });
+    }
+
+    private void getIntentInfo() {
+        Intent intent = getIntent();
+        String PendingDetailInfo = intent.getStringExtra("PendingDetailInfo");
+        if(!TextUtils.isEmpty(PendingDetailInfo)) {
+           com.xll.xinsheng.bean.PendingDetailInfo info = new Gson().fromJson(PendingDetailInfo, PendingDetailInfo.class);
+
+            orderId = info.getOrderId();
+            model.setTicketId(orderId);
+            contractId = orderId;
+            final List<PaymentItem> paymentList = info.getPaymentList();
+            for(PaymentItem item : paymentList) {
+                Log.e(TAG, "PaymentItem" + item);
+                project_name = item.getProject_name();
+                itemTypeName = item.getItem_type_name();
+                fee_type = item.getFee_type();
+                process_type = item.getProcess_type();// TODO 开户行
+                bank_id = item.getBank_id();
+                bx_desc = item.getBx_desc();
+                bx_fee = item.getBx_fee();
+                feeDept = item.getFee_dept();
+
+                now_node = item.getNow_node();
+
+                model.setRequestMoney(item.getFee() + "");
+                model.setBankName(item.getBank_userid());
+                model.setBankAccount(item.getBank_username());
+                model.setBankNetwork(item.getBank_attr());
+                model.setRequestReason(item.getSeal_desc());
+
+            }
+            //附件信息
+            final List<FileInfo> fileList = info.getFileList();
+            if (fileList != null) {
+                for (FileInfo fileInfo : fileList) {
+                    adapter.addAttachmentItem(fileInfo);
+                }
+            }
+
+            final List<OrderDetailItem> detailList = info.getDetailList();
+            if(detailList!=null) {
+                for(OrderDetailItem item : detailList) {
+                    String bxFee = item.getBxFee();
+                    String bxUser = item.getBxUser();
+                   // item.getbx
+                }
+            }
+
+        }
     }
 
     private void submitFile() {
@@ -432,11 +419,12 @@ public class LoanPayRequestActivity extends XinActivity {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                OkHttpUtils.get().upLoadFile(OkHttpUtils.UPLOAD_FILE_URL, param, new OkHttpUtils.OnProcessListener() {
+                HttpFileUtils.upLoadFile(HttpFileUtils.UPLOAD_FILE_URL, param, new HttpFileUtils.OnProcessListener() {
                     @Override
                     public void onSuccess(File file, String str) {
                         Log.e(TAG, "onSuccess");
                         dialog.dismiss();
+                        HttpFileUtils.toastUpFileSuccess(LoanPayRequestActivity.this);
                     }
 
                     @Override
@@ -446,6 +434,7 @@ public class LoanPayRequestActivity extends XinActivity {
                     @Override
                     public void onFailed(Exception e) {
                         dialog.dismiss();
+                        HttpFileUtils.toastUpFileFailed(LoanPayRequestActivity.this);
                         // Toast.makeText(LoanPayRequestActivity.this, R.string.upload_file_failed, Toast.LENGTH_LONG).show();
                     }
                 });
@@ -465,17 +454,16 @@ public class LoanPayRequestActivity extends XinActivity {
 
 
     private String getContractId(int position) {
-        String value = map.get(String.valueOf(position));
-        String contractId;
-        if (getString(R.string.pay_process).equals(value)) {
-            contractId = Utils.generateId("zf-");
-        } else if (getString(R.string.loan_process).equals(value)) {
-            contractId = Utils.generateId("jk-");
-        } else {
-            contractId = "";
+        String[] processes = model.getProcessEntries();
+        String value = null;
+        if (position >= 0 && position < processes.length) {
+            value= processes[position];
         }
-
-        return contractId;
+        if (getString(R.string.pay_process).equals(value)) {
+            return Utils.generateId("zf-");
+        } else {
+            return Utils.generateId("jk-");
+        }
     }
 
     String filePath;
@@ -490,7 +478,9 @@ public class LoanPayRequestActivity extends XinActivity {
                 filePath = Uri2PathUtil.getRealPathFromUri(this, uri);
                 if (!TextUtils.isEmpty(filePath)) {
                     model.setUploadFileName(filePath.substring(filePath.lastIndexOf("/")));
-                    adapter.addAttachmentItem(filePath);
+                    FileInfo fileInfo = new FileInfo();
+                    fileInfo.setFileName(filePath);
+                    adapter.addAttachmentItem(fileInfo);
                     adapter.notifyDataSetChanged();
                     submitFile();
                 } else {

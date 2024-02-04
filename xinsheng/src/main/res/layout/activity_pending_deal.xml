@@ -41,6 +41,7 @@
         android:textColor="@android:color/white"
         android:background="@drawable/selector_submit"
         android:layout_above="@id/dismiss_last_node"
+        android:visibility="@{!isInitiator ? android.view.View.VISIBLE : android.view.View.GONE}"
         android:layout_margin="@dimen/margin_20"
         android:onClick="@{()-> handler.onPassClick(context, model)}"
         android:text="@string/pass"
@@ -54,6 +55,7 @@
         android:background="@drawable/selector_submit"
         android:layout_margin="@dimen/margin_20"
         android:layout_above="@id/dismiss_initiator"
+        android:visibility="@{!isInitiator ? android.view.View.VISIBLE : android.view.View.GONE}"
         android:onClick="@{() -> handler.onDismissLastNode(context, model)}"
         android:text="@string/dismiss_last_node"
         android:id="@+id/dismiss_last_node"
@@ -64,6 +66,7 @@
         android:layout_height="wrap_content"
         android:textColor="@android:color/white"
         android:background="@drawable/selector_submit"
+        android:visibility="@{!isInitiator ? android.view.View.VISIBLE : android.view.View.GONE}"
         android:layout_margin="@dimen/margin_20"
         android:text="@string/dismiss_initiator"
         android:id="@+id/dismiss_initiator"
@@ -74,7 +77,9 @@
 
         <LinearLayout android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:orientation="vertical"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="@dimen/margin_20"
             android:visibility="@{!isInitiator ? android.view.View.GONE : android.view.View.VISIBLE}"
 
             >
@@ -82,7 +87,6 @@
                 android:layout_width="match_parent"
                 android:background="@drawable/selector_submit"
                 android:text="@string/delete"
-                android:layout_weight="0.5"
                 android:textColor="@android:color/white"
                 android:onClick="@{() -> handler.onDeleteClick(context,model)}"
                 android:layout_height="wrap_content"/>
@@ -91,7 +95,7 @@
                 android:layout_width="match_parent"
                 android:background="@drawable/selector_submit"
                 android:text="@string/edit"
-                android:layout_weight="0.5"
+                android:layout_marginTop="@dimen/margin_20"
                 android:textColor="@android:color/white"
                 android:onClick="@{() -> handler.onEditClick(context,model)}"
                 android:layout_height="wrap_content"/>

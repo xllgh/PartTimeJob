@@ -1,5 +1,6 @@
 package com.xll.xinsheng.ui;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,6 +22,7 @@ import com.xll.xinsheng.bean.YiBanItem;
 import com.xll.xinsheng.model.DoneProcess;
 import com.xll.xinsheng.model.SearchModel;
 import com.xll.xinsheng.tools.HttpUtils;
+import com.xll.xinsheng.tools.Utils;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -46,7 +48,7 @@ public class DoneActivity extends XinActivity {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_done);
         binding.setSearchModel(model);
-        binding.setHandler(new DoneHandler());
+        binding.setHandler(new DoneHandler(this));
 
         Intent intent = getIntent();
         if (intent != null) {
@@ -148,9 +150,12 @@ public class DoneActivity extends XinActivity {
 
         timer.schedule(task, 3000);
 
+        final AlertDialog dialog = Utils.getDialog(this, R.string.loading);
+        dialog.show();
         HttpUtils.post(HttpUtils.DONE_ORDER, map, new HttpUtils.XinResponseListener() {
             @Override
             public void onResponse(String response) {
+                dialog.dismiss();
                 Gson gson = new Gson();
                 final YiBanInfo yiBanInfo = gson.fromJson(response, YiBanInfo.class);
                 List<YiBanItem> yiBanItems = yiBanInfo.getYiBanItemList();
@@ -176,6 +181,12 @@ public class DoneActivity extends XinActivity {
                     }
                 }
              isLoading = false;
+            }
+
+            @Override
+            public void onError(String response) {
+                dialog.dismiss();
+                isLoading = false;
             }
         });
     }

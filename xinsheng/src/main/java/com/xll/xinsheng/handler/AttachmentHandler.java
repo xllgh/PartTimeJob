@@ -7,7 +7,7 @@ import android.util.Log;
 import com.example.xinsheng.R;
 import com.xll.xinsheng.bean.FileInfo;
 import com.xll.xinsheng.tools.AttachmentOpenUtils;
-import com.xll.xinsheng.tools.OkHttpUtils;
+import com.xll.xinsheng.tools.HttpFileUtils;
 import com.xll.xinsheng.tools.HttpUtils;
 
 import java.io.File;
@@ -21,8 +21,8 @@ public class AttachmentHandler {
         dialog.setCancelable(true);
         dialog.setTitle(R.string.downloading);
         dialog.show();
-        OkHttpUtils.get().download(downloadUrl, "/mnt/sdcard/", fileInfo.getRealFileName(),
-                new OkHttpUtils.OnProcessListener() {
+        HttpFileUtils.download(downloadUrl, "/mnt/sdcard/", fileInfo.getRealFileName(),
+                new HttpFileUtils.OnProcessListener() {
                     @Override
                     public void onSuccess(File file, String str) {
                         dialog.dismiss();

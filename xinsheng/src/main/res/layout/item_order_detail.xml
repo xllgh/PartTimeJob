@@ -77,7 +77,7 @@
                 android:gravity="start"
                 android:marqueeRepeatLimit="marquee_forever"
                 android:singleLine="true"
-                android:text="@{mode.invoiceType}"
+                android:text="@{mode.bxXxDesc}"
                 android:textSize="@dimen/text_size_15"
                 app:layout_constraintStart_toEndOf="@id/hint_order_name"
                 app:layout_constraintTop_toTopOf="parent"
@@ -219,7 +219,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="horizontal">
 
@@ -237,10 +237,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_20"
-                android:ellipsize="marquee"
                 android:gravity="start"
-                android:marqueeRepeatLimit="marquee_forever"
-                android:singleLine="true"
                 android:text="@{mode.remark}"
                 android:textSize="@dimen/text_size_15"
                 app:layout_constraintStart_toEndOf="@id/hint_invoice_remark"

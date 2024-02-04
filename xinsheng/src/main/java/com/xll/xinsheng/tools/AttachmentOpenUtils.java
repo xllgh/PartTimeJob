@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Build;
+import android.util.Log;
 
 import androidx.core.content.FileProvider;
 
@@ -13,6 +14,8 @@ import java.io.File;
 import java.util.List;
 
 public class AttachmentOpenUtils {
+
+    public static String TAG = "AttachmentOpenUtils";
 
     private static final String[][] MIME_MapTable={
             //{后缀名， MIME类型}
@@ -126,11 +129,13 @@ public class AttachmentOpenUtils {
 
         try {
             Intent intent = new Intent();
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            intent.addCategory(Intent.CATEGORY_DEFAULT);
             //设置intent的Action属性
             intent.setAction(Intent.ACTION_VIEW);
             //获取文件file的MIME类型
             String type = getMIMEType(file);
+            // Log.i(TAG, "getMIMEType:" + type + ":file:" + file.getAbsolutePath() + "fileSize:" + file.length());
             //设置intent的data和Type属性。android 7.0以上crash,改用provider
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 Uri fileUri = FileProvider.getUriForFile(context, context.getPackageName()+".provider", file);//android 7.0以上

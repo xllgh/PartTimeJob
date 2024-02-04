@@ -5,32 +5,18 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- 往sdcard中写入数据的权限 -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> <!-- 在sdcard中创建/删除文件的权限 -->
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-
-
-    <!-- Push service 运行需要的权限 -->
-    <!--    <uses-permission android:name="android.permission.INTERNET" />-->
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <!--    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />-->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /> <!-- Push service 运行需要的权限 -->
+    <!-- <uses-permission android:name="android.permission.INTERNET" /> -->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> <!-- <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> -->
     <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
-
-
-    <!-- Push service 运行的可选权限，android.permission.READ_PHONE_STATE 在小米上是必需 -->
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD" /> <!-- Push service 运行的可选权限，android.permission.READ_PHONE_STATE 在小米上是必需 -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-
-
-    <!-- 适配Android N系统必需的ContentProvider写权限声明，写权限包含应用包名-->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" /> <!-- 适配Android N系统必需的ContentProvider写权限声明，写权限包含应用包名 -->
     <uses-permission android:name="baidu.push.permission.WRITE_PUSHINFOPROVIDER.com.example.xinsheng" />
+
     <permission
         android:name="baidu.push.permission.WRITE_PUSHINFOPROVIDER.com.example.xinsheng"
-        android:protectionLevel="signature">
-    </permission>
-    <!-- Push service 运行需要的权限 END -->
-
-
-
+        android:protectionLevel="signature"></permission>
 
     <application
         android:name="com.xll.xinsheng.tools.MyApplication"
@@ -40,10 +26,17 @@
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name="com.xll.xinsheng.ui.SpecialCreateActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            ></activity>
         <activity
             android:name="com.xll.xinsheng.ui.ReimburseRequestActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity android:name="com.xll.xinsheng.ui.NoticeDetailActivity" />
+        <activity android:name="com.xll.xinsheng.ui.NoticeDetailActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            />
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -54,16 +47,15 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths" />
         </provider>
-
-       <!-- <service
+        <!--
+ <service
             android:name="com.xll.xinsheng.tools.XinShengHmsMessageService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.huawei.push.action.MESSAGING_EVENT" />
             </intent-filter>
-        </service>-->
-
-
+        </service>
+        -->
         <!-- push必须的组件声明  START -->
         <receiver android:name="com.xll.xinsheng.receiver.MyPushMessageReceiver">
             <intent-filter>
@@ -75,11 +67,13 @@
                 <action android:name="com.huawei.android.push.intent.RECEIVE" />
             </intent-filter>
         </receiver>
-
-         <!--push必须的组件声明
-         用于接收系统消息以保证PushService正常运行-->
-        <receiver android:name="com.baidu.android.pushservice.PushServiceReceiver"
-            android:process=":bdservice_v1" >
+        <!--
+push必须的组件声明
+         用于接收系统消息以保证PushService正常运行
+        -->
+        <receiver
+            android:name="com.baidu.android.pushservice.PushServiceReceiver"
+            android:process=":bdservice_v1">
             <intent-filter>
                 <action android:name="com.baidu.android.pushservice.action.notification.SHOW" />
                 <!-- 以下六项为可选的action声明，可大大提高service存活率和消息到达速度 -->
@@ -90,66 +84,53 @@
                 <action android:name="android.intent.action.ACTION_POWER_CONNECTED" />
                 <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED" />
             </intent-filter>
-        </receiver>
-
-        <!-- Push服务接收客户端发送的各种请求-->
-        <receiver android:name="com.baidu.android.pushservice.RegistrationReceiver"
+        </receiver> <!-- Push服务接收客户端发送的各种请求 -->
+        <receiver
+            android:name="com.baidu.android.pushservice.RegistrationReceiver"
             android:exported="false"
-            android:process=":bdservice_v1" >
+            android:process=":bdservice_v1">
             <intent-filter>
                 <action android:name="com.baidu.android.pushservice.action.METHOD" />
             </intent-filter>
         </receiver>
 
-        <service android:name="com.baidu.android.pushservice.PushService"
+        <service
+            android:name="com.baidu.android.pushservice.PushService"
             android:exported="false"
             android:persistent="true"
-            android:process=":bdservice_v1" >
-            <intent-filter >
+            android:process=":bdservice_v1">
+            <intent-filter>
                 <action android:name="com.baidu.android.pushservice.action.PUSH_SERVICE" />
             </intent-filter>
-        </service>
-
-
-        <!-- 4.4版本新增的CommandService声明，提升小米和魅族手机上的实际推送到达率 -->
-        <service android:name="com.baidu.android.pushservice.CommandService"
-            android:exported="false" />
-
-        <!-- 适配Android N系统必需的ContentProvider声明，写权限包含应用包名-->
+        </service> <!-- 4.4版本新增的CommandService声明，提升小米和魅族手机上的实际推送到达率 -->
+        <service
+            android:name="com.baidu.android.pushservice.CommandService"
+            android:exported="false" /> <!-- 适配Android N系统必需的ContentProvider声明，写权限包含应用包名 -->
         <provider
             android:name="com.baidu.android.pushservice.PushInfoProvider"
             android:authorities="com.example.xinsheng.bdpush"
-            android:writePermission="baidu.push.permission.WRITE_PUSHINFOPROVIDER.com.example.xinsheng"
-            android:protectionLevel = "signature"
             android:exported="true"
-            android:process=":bdservice_v1" />
-
-        <!-- 可选声明, 提升push消息送达率 -->
+            android:process=":bdservice_v1"
+            android:protectionLevel="signature"
+            android:writePermission="baidu.push.permission.WRITE_PUSHINFOPROVIDER.com.example.xinsheng" /> <!-- 可选声明, 提升push消息送达率 -->
         <service
             android:name="com.baidu.android.pushservice.job.PushJobService"
             android:permission="android.permission.BIND_JOB_SERVICE"
             android:persistent="true"
-            android:process=":bdservice_v1" />
-
-        <!-- 适配Android N系统必需的ContentProvider声明，写权限包含应用包名-->
+            android:process=":bdservice_v1" /> <!-- 适配Android N系统必需的ContentProvider声明，写权限包含应用包名 -->
         <provider
             android:name="com.baidu.android.pushservice.PushInfoProvider"
             android:authorities="YourPackageName.bdpush"
-            android:writePermission="baidu.push.permission.WRITE_PUSHINFOPROVIDER.YourPackageName"
-            android:protectionLevel = "signature"
             android:exported="true"
-            android:process=":bdservice_v1" />
-
-        <!-- 可选声明, 提升push消息送达率 -->
+            android:process=":bdservice_v1"
+            android:protectionLevel="signature"
+            android:writePermission="baidu.push.permission.WRITE_PUSHINFOPROVIDER.YourPackageName" /> <!-- 可选声明, 提升push消息送达率 -->
         <service
             android:name="com.baidu.android.pushservice.job.PushJobService"
             android:permission="android.permission.BIND_JOB_SERVICE"
             android:persistent="true"
-            android:process=":bdservice_v1"
-            />
-
-<!--
-
+            android:process=":bdservice_v1" />
+        <!--
          华为代理推送必需组件
         <activity
             android:name="com.baidu.android.pushservice.hwproxy.HwNotifyActivity"
@@ -175,45 +156,54 @@
             </intent-filter>
         </service>
          华为代理推送必需组件 END
--->
-
-
-        <activity android:name="com.xll.xinsheng.ui.PendingDealActivity" />
-        <activity android:name="com.xll.xinsheng.ui.ProcessDetailActivity" />
-        <activity android:name="com.xll.xinsheng.ui.DoneActivity" />
+        -->
+        <activity android:name="com.xll.xinsheng.ui.PendingDealActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            />
+        <activity android:name="com.xll.xinsheng.ui.ProcessDetailActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            />
+        <activity android:name="com.xll.xinsheng.ui.DoneActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            />
         <activity
             android:name="com.xll.xinsheng.ui.PendingActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:launchMode="singleTask" />
         <activity
             android:name="com.xll.xinsheng.ui.ReimburseManageActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/reimburseManage" />
-        <activity android:name="com.xll.xinsheng.ui.ProcessListActivity" />
+        <activity android:name="com.xll.xinsheng.ui.ProcessListActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            />
         <activity
             android:name="com.xll.xinsheng.ui.LoanPayRequestActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            />
         <activity
             android:name="com.xll.xinsheng.ui.LoginActivity"
             android:launchMode="singleTask"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name="com.xll.xinsheng.ui.MainActivity"
             android:launchMode="singleTask"
+            android:configChanges="orientation|keyboardHidden|screenSize "
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-
-        <!-- 在百度开发者中心查询应用的API Key -->
+        </activity> <!-- 在百度开发者中心查询应用的API Key -->
         <meta-data
             android:name="api_key"
             android:value="83Z1ujbnm87zl100eyNmU7Rn" />
-
         <meta-data
             android:name="push_kit_proxy_init_enabled"
             android:value="true" />
-
     </application>
 
 </manifest>

@@ -25,8 +25,6 @@ public class ProcessDonePageAdapter extends LoadMoreRecyclerAdapter<DoneProcess>
 
     private List<DoneProcess> processList;
 
-    private static final int TYPE_DATA = 1;
-    private static final int TYPE_HINT = 0;
 
     private int[] backgroundList = new int[]{R.drawable.ic_round1, R.drawable.ic_round2, R.drawable.ic_round3,
             R.drawable.ic_round4, R.drawable.ic_round5, R.drawable.ic_round6};

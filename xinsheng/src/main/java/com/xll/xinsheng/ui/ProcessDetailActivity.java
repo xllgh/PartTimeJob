@@ -26,7 +26,6 @@ public class ProcessDetailActivity extends XinActivity {
 
     public ObservableField<Integer> currentTab = new ObservableField<>();
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,9 +38,11 @@ public class ProcessDetailActivity extends XinActivity {
         HashMap<String, String> param = new HashMap<>();
         param.put("id", id);
         param.put("isGetData", "yes");
+        binding.setIsLoading(true);
         HttpUtils.post(HttpUtils.ORDER_EDIT, param, new HttpUtils.XinResponseListener() {
             @Override
             public void onResponse(String response) {
+                binding.setIsLoading(false);
                 Gson gson = new Gson();
                 PendingDetailInfo info = gson.fromJson(response, PendingDetailInfo.class);
                 info.setOrderId(id);
@@ -60,6 +61,12 @@ public class ProcessDetailActivity extends XinActivity {
                     }
                 });
                 mediator.attach();
+
+            }
+
+            @Override
+            public void onError(String response) {
+
             }
         });
     }

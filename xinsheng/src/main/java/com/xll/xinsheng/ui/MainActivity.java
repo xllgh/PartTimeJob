@@ -29,6 +29,7 @@ import com.xll.xinsheng.model.DoneProcess;
 import com.xll.xinsheng.model.PendingProcess;
 import com.xll.xinsheng.model.WorkViewModel;
 import com.xll.xinsheng.tools.HttpUtils;
+import com.xll.xinsheng.tools.MyApplication;
 import com.xll.xinsheng.tools.Utils;
 
 import java.util.ArrayList;
@@ -45,6 +46,7 @@ public class MainActivity extends XinActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.i(TAG, "onCreate：" + getIntent().toUri(Intent.URI_ALLOW_UNSAFE));
+        MyApplication.initialData();
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
        setOnline(binding);
         binding.setHandler(new MainEventHandler());
@@ -110,6 +112,11 @@ public class MainActivity extends XinActivity {
                     cache.saveInfo(gson.toJson(noticeList));
                 }
             }
+
+            @Override
+            public void onError(String response) {
+
+            }
         });
     }
 
@@ -151,6 +158,11 @@ public class MainActivity extends XinActivity {
                     });
                 }
             }
+
+            @Override
+            public void onError(String response) {
+
+            }
         });
     }
 
@@ -191,6 +203,11 @@ public class MainActivity extends XinActivity {
                 }
 
             }
+
+            @Override
+            public void onError(String response) {
+
+            }
         });
     }
 
@@ -211,7 +228,13 @@ public class MainActivity extends XinActivity {
                 startActivity(intent);
             }
         });
-        WorkViewModel project = new WorkViewModel(getString(R.string.projectManage), R.drawable.project, listener);
+        WorkViewModel specialProcess = new WorkViewModel(getString(R.string.specialProcessCreate), R.drawable.project, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, SpecialCreateActivity.class);
+                startActivity(intent);
+            }
+        });
         WorkViewModel apply = new WorkViewModel(getString(R.string.applyManage), R.drawable.apply, listener);
         WorkViewModel reimburse = new WorkViewModel(getString(R.string.reimburseManage), R.drawable.reimburse, new View.OnClickListener() {
             @Override
@@ -226,7 +249,7 @@ public class MainActivity extends XinActivity {
         List<WorkViewModel> list = new ArrayList<>();
         list.add(process);
         list.add(reimburse);
-        list.add(project);
+        list.add(specialProcess);
         list.add(apply);
         list.add(doc);
         list.add(human);

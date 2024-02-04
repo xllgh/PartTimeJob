@@ -27,6 +27,11 @@ public class ProcessListActivity extends XinActivity {
                 ProcessPendingAdapter adapter = new ProcessPendingAdapter(ProcessListActivity.this, done.getRows());
                 binding.setAdapter(adapter);
             }
+
+            @Override
+            public void onError(String response) {
+
+            }
         });
     }
 }
